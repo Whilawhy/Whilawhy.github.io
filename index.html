@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Exam Countdown</title>
+<title>Exam Grind · October A-Level Plan</title>
 <style>
   :root{
     --bg:#0b0d10;
@@ -263,13 +263,45 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
+/* ---------- MOTIVATION / CHECKLIST UPGRADE ---------- */
+.drive-card{
+  background:linear-gradient(145deg,#151b1d,#101417 70%);
+  border:1px solid #29423d;border-radius:16px;padding:15px 15px 13px;margin:0 0 14px;
+  box-shadow:0 12px 30px -22px rgba(95,184,168,.7),inset 0 0 24px -18px rgba(95,184,168,.8);
+}
+.drive-kicker{font-size:.66rem;letter-spacing:.12em;font-weight:800;color:var(--accent);margin-bottom:5px}
+.drive-title{font-size:1.03rem;font-weight:750;line-height:1.25}
+.drive-sub{font-size:.78rem;color:var(--ink-dim);line-height:1.35;margin-top:4px}
+.drive-stats{display:flex;gap:7px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+.drive-stats::-webkit-scrollbar{display:none}
+.drive-stats div{white-space:nowrap;background:#0d1114;border:1px solid #252f31;border-radius:9px;padding:6px 9px;font-size:.72rem;color:var(--ink-dim)}
+.drive-stats b{color:var(--ink);font-weight:800}
+.focus-btn{width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-dim);color:var(--accent);font-size:.76rem;font-weight:800;letter-spacing:.04em}
+.focus-btn:active{transform:scale(.98)}
+.foundation-note{font-size:.73rem;line-height:1.35;color:var(--ink-faint);margin:-5px 3px 14px}
+.foundation-note b{color:var(--ink-dim)}
+.task.priority-core{box-shadow:0 0 0 1px rgba(255,255,255,.035),0 7px 18px -13px rgba(0,0,0,.8)}
+.task.priority-bonus{opacity:.86}
+.priority-tag{font-size:.61rem;font-weight:800;letter-spacing:.06em;border-radius:6px;padding:2px 6px}
+.priority-tag.core{color:#a7e4d8;background:#1c3430}
+.priority-tag.bonus{color:#9aa4ae;background:#20252a}
+.finish-line{margin-top:10px;padding:9px 11px;border-radius:10px;background:#10201d;border:1px solid #25453f;color:#9eddd1;font-size:.76rem;font-weight:700;text-align:center}
+.finish-line.done{background:#173027;border-color:#3b786b;color:#b8eee4}
+.task.next-focus{box-shadow:0 0 0 1px var(--accent),0 0 24px -8px rgba(95,184,168,.65)!important;transform:translateY(-1px)}
+@media(max-width:420px){
+  .drive-title{font-size:1rem}
+  .drive-sub{font-size:.75rem}
+  .task{padding:12px 12px}
+  .task-text{font-size:.9rem}
+}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="top">
     <div class="brand">
-      <h1>Exam Countdown</h1>
+      <h1>Exam Grind</h1>
       <div class="streak">🔥 <b id="streakNum">0</b><span>&nbsp;day streak</span></div>
     </div>
     <div class="overall-bar"><div id="overallFill" style="width:0%"></div></div>
@@ -285,7 +317,19 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
 
     <div class="quick-row">
       <button class="quick-btn" id="todayBtn">Today</button>
-      <button class="quick-btn" id="nextUnfinishedBtn">Next unfinished</button>
+      <button class="quick-btn" id="nextUnfinishedBtn">Focus next</button>
+    </div>
+
+    <div class="drive-card" id="driveCard">
+      <div class="drive-kicker">TODAY'S MISSION</div>
+      <div class="drive-title" id="driveTitle">Start the first task.</div>
+      <div class="drive-sub" id="driveSub">One checkbox at a time. Get the core work done first.</div>
+      <div class="drive-stats">
+        <div><b id="coreDone">0</b>/<span id="coreTotal">0</span> core</div>
+        <div><b id="bonusDone">0</b>/<span id="bonusTotal">0</span> bonus</div>
+        <div id="daysLeft">—</div>
+      </div>
+      <button class="focus-btn" id="focusBtn">GO TO NEXT TASK</button>
     </div>
   </header>
 
@@ -293,6 +337,7 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
     <div class="count" id="dayCount">0 / 0</div>
     <div class="mini-bar"><div id="dayFill" style="width:0%"></div></div>
   </div>
+  <div class="foundation-note">You already banked <b>11/12 sessions</b> on Sep 21. This plan starts fresh from <b>September 25</b>.</div>
 
   <div id="examBannerHolder"></div>
 
@@ -324,397 +369,338 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
 // [subject, text] pairs per day. Subject is the study unit; for EXAM lines the
 // subject is the unit being examined; REST lines use 'GEN'.
 const RAW_DAYS = [
-["09-21","September 21",2026,8,21,[
-  ["P2","V24 Geometric Sequences"],
-  ["P2","V25 Geometric Series"],
-  ["P2","V26 Sum to Infinity"],
-  ["M1","V1–V3"],
-  ["M1","V4–V6"],
-  ["U1","V3 Motion graphs"],
-  ["U1","V4 Projectile motion 1"],
-  ["P1","January 2024 WMA11/01 Full Paper"],
-  ["P1","January 2024 WMA11/01 Mark + Correct"],
-  ["U2","V2 Waves"],
-  ["U2","V3 Intensity"],
-  ["P2","V27 Sigma Notation"]
-]],
-["09-22","September 22",2026,8,22,[
-  ["P2","V28 Recurrence Relations"],
-  ["P2","V29 Modelling with Series"],
-  ["P2","V30 Angles in all four Quadrants"],
-  ["M1","V7"],
-  ["M1","V8"],
-  ["M1","V9"],
-  ["U1","V5 Projectile motion 2"],
-  ["U1","V6 Forces, Resultants, Free-body diagrams, Equilibrium, Newton's laws, Moments"],
-  ["U2","V4 Diffraction"],
-  ["U2","V5 Refraction, Critical Angle, Total Internal Reflection"],
-  ["P1","June 2024 WMA11/01 Full Paper"],
-  ["P1","June 2024 WMA11/01 Mark + Correct"]
-]],
-["09-23","September 23",2026,8,23,[
-  ["P2","V31 Exact values of trig ratios"],
-  ["P2","V32 Trig identities"],
-  ["P2","V33 Simple trig equations"],
-  ["M1","V10–V11"],
-  ["M1","V12–V13"],
-  ["U1","V7 Work, Energy and Power"],
-  ["U1","V8 Fluids and Materials — Part 1"],
-  ["U2","V6 Constructive and Destructive Interference"],
-  ["U2","V7 Diffraction Grating"],
-  ["P1","January 2025 WMA11/01 Full Paper"],
-  ["P1","January 2025 WMA11/01 Mark + Correct"],
-  ["P2","V34 Harder trig equations"]
-]],
-["09-24","September 24",2026,8,24,[
-  ["P2","V35 Equations and Identities"],
-  ["P2","V36 Increasing/Decreasing Functions"],
-  ["P2","V37 Stationary Points"],
-  ["M1","V14–V15"],
-  ["M1","V16–V17"],
-  ["U1","V8 Fluids and Materials — Part 2"],
-  ["U1","V9 Solid Materials — Part 1"],
-  ["U2","V8 Standing Waves"],
-  ["U2","V9 Polarisation"],
-  ["P1","October 2024 WMA11/01 Full Paper"],
-  ["P1","October 2024 WMA11/01 Mark + Correct"],
-  ["P2","V38 Sketching gradient functions"]
-]],
 ["09-25","September 25",2026,8,25,[
-  ["P2","V39 Modelling with differentiation"],
-  ["P2","V40 Definite integrals"],
-  ["P2","V41 Areas under curves"],
-  ["P2","V42 Areas under x-axis"],
-  ["M1","V18–V20"],
-  ["M1","V21–V22"],
-  ["U1","V9 Solid Materials — Part 2"],
-  ["U2","V10 Pulse Echo"],
-  ["U2","V11 Photoelectric Effect"],
-  ["P1","June 2025 WMA11/01 Full Paper"],
-  ["P1","June 2025 WMA11/01 Mark + Correct"],
-  ["P2","V43 Areas between curves and lines"]
+  ["U2","V3 Intensity","core"],
+  ["P2","V28 Recurrence Relations","core"],
+  ["P2","V29 Modelling with Series","core"],
+  ["P2","V30 Angles in all four Quadrants","core"],
+  ["M1","V7","core"],
+  ["M1","V8","core"],
+  ["U1","V5 Projectile motion 2","core"],
+  ["U2","V4 Diffraction","core"],
+  ["M1","V9","core"],
+  ["P1","June 2024 WMA11/01 Full Paper","core"],
+  ["P1","June 2024 WMA11/01 Mark + Correct","bonus"],
+  ["P2","V31 Exact values of trig ratios","bonus"]
 ]],
 ["09-26","September 26",2026,8,26,[
-  ["P2","V44 Areas between two curves"],
-  ["P2","V45 Trapezium Rule"],
-  ["M1","V23–V24"],
-  ["M1","V25–V26"],
-  ["M1","V27–V28"],
-  ["U2","V12 Energy Levels"],
-  ["U2","V13 Charge Carrier Density"],
-  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 1"],
-  ["P1","October 2023 WMA11/01 Full Paper"],
-  ["P1","October 2023 WMA11/01 Mark + Correct"],
-  ["M1","V29"],
-  ["P2","V46 October 2021 P2 Exam Walkthrough"]
+  ["P2","V32 Trig identities","core"],
+  ["P2","V33 Simple trig equations","core"],
+  ["P2","V34 Harder trig equations","core"],
+  ["M1","V10","core"],
+  ["M1","V11","core"],
+  ["M1","V12–V13","core"],
+  ["U1","V6 Forces, Resultants, Free-body diagrams, Equilibrium, Newton's laws, Moments","core"],
+  ["U2","V5 Refraction, Critical Angle, Total Internal Reflection","core"],
+  ["U2","V6 Constructive and Destructive Interference","core"],
+  ["P1","January 2025 WMA11/01 Full Paper","core"],
+  ["P1","January 2025 WMA11/01 Mark + Correct","bonus"],
+  ["M1","V14–V15","bonus"]
 ]],
 ["09-27","September 27",2026,8,27,[
-  ["M1","V30"],
-  ["M1","V31"],
-  ["M1","V32"],
-  ["M1","V33"],
-  ["M1","V34"],
-  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 2"],
-  ["U2","V15 Transport Equation, Potential Difference and Resistance"],
-  ["U2","V16 Series and Parallel Circuits — Part 1"],
-  ["P1","January 2023 WMA11/01 Full Paper"],
-  ["P1","January 2023 WMA11/01 Mark + Correct"],
-  ["P2","V47 January 2023 P2 Exam Walkthrough"],
-  ["M1","V35"]
+  ["P2","V35 Equations and Identities","core"],
+  ["P2","V36 Increasing/Decreasing Functions","core"],
+  ["P2","V37 Stationary Points","core"],
+  ["P2","V38 Sketching gradient functions","core"],
+  ["M1","V14–V15","core"],
+  ["M1","V16–V17","core"],
+  ["U1","V7 Work, Energy and Power","core"],
+  ["U2","V7 Diffraction Grating","core"],
+  ["U2","V8 Standing Waves","core"],
+  ["P1","October 2024 WMA11/01 Full Paper","core"],
+  ["P1","October 2024 WMA11/01 Mark + Correct","bonus"],
+  ["M1","V18","bonus"]
 ]],
 ["09-28","September 28",2026,8,28,[
-  ["M1","V36"],
-  ["M1","V37"],
-  ["M1","V38"],
-  ["M1","V39"],
-  ["U2","V17 Current Electricity Circuits — Part 1"],
-  ["U2","V17 Current Electricity Circuits — Part 2"],
-  ["U2","V18 Ideal and Real Voltmeters, Internal Resistance"],
-  ["P1","January 2022 WMA11/01 Full Paper"],
-  ["P1","January 2022 WMA11/01 Mark + Correct"],
-  ["M1","V40 October 2021 M1 Exam Walkthrough"],
-  ["P2","V48 May 2023 P2 Exam Walkthrough"],
-  ["U2","V19 Ammeter, Cell and Internal Resistance"]
+  ["P2","V39 Modelling with differentiation","core"],
+  ["P2","V40 Definite integrals","core"],
+  ["P2","V41 Areas under curves","core"],
+  ["P2","V42 Areas under x-axis","core"],
+  ["M1","V19–V20","core"],
+  ["M1","V21–V22","core"],
+  ["U1","V8 Fluids and Materials — Part 1","core"],
+  ["U2","V9 Polarisation","core"],
+  ["U2","V10 Pulse Echo","core"],
+  ["P1","June 2025 WMA11/01 Full Paper","core"],
+  ["P1","June 2025 WMA11/01 Mark + Correct","bonus"],
+  ["P2","V43 Areas between curves and lines","bonus"]
 ]],
 ["09-29","September 29",2026,8,29,[
-  ["M1","V41 May 2023 M1 Exam Walkthrough"],
-  ["U2","V20 Electricity Circuits Exam-Style Questions"],
-  ["U2","V21 Electricity Circuits Exam-Style Questions"],
-  ["U2","Formula/specification consolidation"],
-  ["P1","October 2022 WMA11/01 Full Paper"],
-  ["P1","October 2022 WMA11/01 Mark + Correct"],
-  ["P2","V49 Hardest Questions P2 2022 Walkthrough"],
-  ["U3","V1 Experimental Skills and Techniques — Part 1"],
-  ["U3","Experimental Skills and Techniques — Part 2"],
-  ["M1","Formula and method consolidation"],
-  ["P2","V24–V35 content consolidation"],
-  ["P2","V36–V45 content consolidation"]
+  ["P2","V43 Areas between curves and lines","core"],
+  ["P2","V44 Areas between two curves","core"],
+  ["P2","V45 Trapezium Rule","core"],
+  ["M1","V23–V24","core"],
+  ["M1","V25–V26","core"],
+  ["U1","V8 Fluids and Materials — Part 2","core"],
+  ["U1","V9 Solid Materials — Part 1","core"],
+  ["U2","V11 Photoelectric Effect","core"],
+  ["U2","V12 Energy Levels","core"],
+  ["U2","V13 Charge Carrier Density","core"],
+  ["P1","October 2023 WMA11/01 Full Paper","bonus"],
+  ["P1","October 2023 WMA11/01 Mark + Correct","bonus"]
 ]],
 ["09-30","September 30",2026,8,30,[
-  ["U3","V1 Experimental Skills and Techniques — Part 2"],
-  ["U3","V2 May/June 2023 practical discussion — Part 1"],
-  ["U3","V2 May/June 2023 practical discussion — Part 2"],
-  ["U2","V2–V7 content consolidation"],
-  ["U2","V8–V13 content consolidation"],
-  ["U2","V14–V17 content consolidation"],
-  ["U2","V18–V21 content consolidation"],
-  ["P1","October 2021 WMA11/01 Full Paper"],
-  ["P1","October 2021 WMA11/01 Mark + Correct"],
-  ["M1","Full formula/method consolidation"],
-  ["P2","Full formula/method consolidation"],
-  ["U3","Experimental terminology and techniques"]
+  ["M1","V27–V28","core"],
+  ["M1","V29","core"],
+  ["M1","V30","core"],
+  ["M1","V31","core"],
+  ["U1","V9 Solid Materials — Part 2","core"],
+  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 1","core"],
+  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 2","core"],
+  ["U2","V15 Transport Equation, Potential Difference and Resistance","core"],
+  ["U2","V16 Series and Parallel Circuits — Part 1","core"],
+  ["U3","V1 Experimental Skills and Techniques — Part 1","core"],
+  ["P1","January 2023 WMA11/01 Full Paper","bonus"],
+  ["P1","January 2023 WMA11/01 Mark + Correct","bonus"]
 ]],
 ["10-01","October 1",2026,9,1,[
-  ["P2","January 2024 WMA12/01 Full Paper"],
-  ["P2","January 2024 WMA12/01 Mark + Correct"],
-  ["M1","January 2024 WME01/01 Full Paper"],
-  ["M1","January 2024 WME01/01 Mark + Correct"],
-  ["U1","January 2024 WPH11/01 Full Paper"],
-  ["U1","January 2024 WPH11/01 Mark + Correct"],
-  ["U2","January 2024 WPH12/01 Full Paper"],
-  ["U2","January 2024 WPH12/01 Mark + Correct"],
-  ["P1","June 2023 WMA11/01 Full Paper"],
-  ["P1","June 2023 WMA11/01 Mark + Correct"],
-  ["U3","Experimental skills review"],
-  ["U3","May/June 2023 practical paper review"]
+  ["M1","V32–V33","core"],
+  ["M1","V34–V35","core"],
+  ["M1","V36–V37","core"],
+  ["U2","V16 Series and Parallel Circuits — Part 2","core"],
+  ["U2","V17 Current Electricity Circuits — Part 1","core"],
+  ["U2","V17 Current Electricity Circuits — Part 2","core"],
+  ["U2","V18 Ideal and Real Voltmeters, Internal Resistance","core"],
+  ["U3","V1 Experimental Skills and Techniques — Part 2","core"],
+  ["U3","V2 May/June 2023 practical discussion — Part 1","core"],
+  ["P2","January 2024 WMA12/01 Full Paper","bonus"],
+  ["P2","January 2024 WMA12/01 Mark + Correct","bonus"],
+  ["M1","V38–V39","bonus"]
 ]],
 ["10-02","October 2",2026,9,2,[
-  ["P2","June 2024 WMA12/01 Full Paper"],
-  ["P2","June 2024 WMA12/01 Mark + Correct"],
-  ["M1","June 2024 WME01/01 Full Paper"],
-  ["M1","June 2024 WME01/01 Mark + Correct"],
-  ["U1","June 2024 WPH11/01 Full Paper"],
-  ["U1","June 2024 WPH11/01 Mark + Correct"],
-  ["U2","June 2024 WPH12/01 Full Paper"],
-  ["U2","June 2024 WPH12/01 Mark + Correct"],
-  ["P1","June 2022 WMA11/01 Full Paper"],
-  ["P1","June 2022 WMA11/01 Mark + Correct"],
-  ["U3","Planning, uncertainties and graphs"],
-  ["U3","Experimental methods"]
+  ["M1","V38–V39","core"],
+  ["U2","V19 Ammeter, Cell and Internal Resistance","core"],
+  ["U2","V20 Electricity Circuits Exam-Style Questions","core"],
+  ["U2","V21 Electricity Circuits Exam-Style Questions","core"],
+  ["U3","V2 May/June 2023 practical discussion — Part 2","core"],
+  ["U3","Experimental terminology and techniques","core"],
+  ["U1","January 2024 WPH11/01 Full Paper","core"],
+  ["U1","January 2024 WPH11/01 Mark + Correct","core"],
+  ["P2","June 2024 WMA12/01 Full Paper","bonus"],
+  ["P2","June 2024 WMA12/01 Mark + Correct","bonus"],
+  ["M1","January 2024 WME01/01 Full Paper","bonus"],
+  ["M1","January 2024 WME01/01 Mark + Correct","bonus"]
 ]],
 ["10-03","October 3",2026,9,3,[
-  ["U1","October 2023 WPH11/01 Full Paper"],
-  ["U1","October 2023 WPH11/01 Mark + Correct"],
-  ["P2","October 2023 WMA12/01 Full Paper"],
-  ["P2","October 2023 WMA12/01 Mark + Correct"],
-  ["M1","October 2023 WME01/01 Full Paper"],
-  ["M1","October 2023 WME01/01 Mark + Correct"],
-  ["U2","October 2023 WPH12/01 Full Paper"],
-  ["U2","October 2023 WPH12/01 Mark + Correct"],
-  ["P1","October 2020 WMA11/01 Full Paper"],
-  ["P1","October 2020 WMA11/01 Mark + Correct"],
-  ["U1","Correct every mistake from today's U1 paper"],
-  ["U2","Correct every mistake from today's U2 paper"]
+  ["U1","October 2023 WPH11/01 Full Paper","core"],
+  ["U1","October 2023 WPH11/01 Mark + Correct","core"],
+  ["P1","October 2020 WMA11/01 Full Paper","core"],
+  ["P1","October 2020 WMA11/01 Mark + Correct","core"],
+  ["P2","October 2023 WMA12/01 Full Paper","core"],
+  ["P2","October 2023 WMA12/01 Mark + Correct","core"],
+  ["M1","October 2023 WME01/01 Full Paper","core"],
+  ["M1","October 2023 WME01/01 Mark + Correct","core"],
+  ["U2","October 2023 WPH12/01 Full Paper","bonus"],
+  ["U2","October 2023 WPH12/01 Mark + Correct","bonus"],
+  ["U1","Redo every mistake from today's U1 paper","bonus"],
+  ["P1","Redo every mistake from today's P1 paper","bonus"]
 ]],
 ["10-04","October 4",2026,9,4,[
-  ["U1","January 2025 WPH11/01 Full Paper"],
-  ["U1","January 2025 WPH11/01 Mark + Correct"],
-  ["P2","January 2025 WMA12/01 Full Paper"],
-  ["P2","January 2025 WMA12/01 Mark + Correct"],
-  ["M1","January 2025 WME01/01 Full Paper"],
-  ["M1","January 2025 WME01/01 Mark + Correct"],
-  ["U2","January 2025 WPH12/01 Full Paper"],
-  ["U2","January 2025 WPH12/01 Mark + Correct"],
-  ["P1","June 2021 WMA11/01 Full Paper"],
-  ["P1","June 2021 WMA11/01 Mark + Correct"],
-  ["U3","Full practical review"],
-  ["U3","Practical discussion and technique review"]
+  ["U1","January 2025 WPH11/01 Full Paper","core"],
+  ["U1","January 2025 WPH11/01 Mark + Correct","core"],
+  ["P1","June 2021 WMA11/01 Full Paper","core"],
+  ["P1","June 2021 WMA11/01 Mark + Correct","core"],
+  ["P2","January 2025 WMA12/01 Full Paper","core"],
+  ["P2","January 2025 WMA12/01 Mark + Correct","core"],
+  ["M1","January 2025 WME01/01 Full Paper","core"],
+  ["M1","January 2025 WME01/01 Mark + Correct","core"],
+  ["U2","January 2025 WPH12/01 Full Paper","bonus"],
+  ["U2","January 2025 WPH12/01 Mark + Correct","bonus"],
+  ["U1","Redo every mistake from today's U1 paper","bonus"],
+  ["P1","Redo every mistake from today's P1 paper","bonus"]
 ]],
 ["10-05","October 5",2026,9,5,[
-  ["U1","October 2024 WPH11/01 Full Paper"],
-  ["U1","October 2024 WPH11/01 Mark + Correct"],
-  ["P2","October 2024 WMA12/01 Full Paper"],
-  ["P2","October 2024 WMA12/01 Mark + Correct"],
-  ["M1","October 2024 WME01/01 Full Paper"],
-  ["M1","October 2024 WME01/01 Mark + Correct"],
-  ["U2","October 2024 WPH12/01 Full Paper"],
-  ["U2","October 2024 WPH12/01 Mark + Correct"],
-  ["P1","October 2019 WMA11/01 Full Paper"],
-  ["P1","October 2019 WMA11/01 Mark + Correct"],
-  ["U1","Correct every mistake from all previous U1 papers"],
-  ["P1","Correct every recurring mistake from all previous P1 papers"]
+  ["U1","October 2024 WPH11/01 Full Paper","core"],
+  ["U1","October 2024 WPH11/01 Mark + Correct","core"],
+  ["P1","October 2019 WMA11/01 Full Paper","core"],
+  ["P1","October 2019 WMA11/01 Mark + Correct","core"],
+  ["P2","October 2024 WMA12/01 Full Paper","core"],
+  ["P2","October 2024 WMA12/01 Mark + Correct","core"],
+  ["M1","October 2024 WME01/01 Full Paper","core"],
+  ["M1","October 2024 WME01/01 Mark + Correct","core"],
+  ["U2","October 2024 WPH12/01 Full Paper","bonus"],
+  ["U2","October 2024 WPH12/01 Mark + Correct","bonus"],
+  ["U1","Redo every mistake from today's U1 paper","bonus"],
+  ["P1","Redo every mistake from today's P1 paper","bonus"]
 ]],
 ["10-06","October 6",2026,9,6,[
-  ["U1","June 2025 WPH11/01 Full Paper"],
-  ["U1","June 2025 WPH11/01 Mark + Correct"],
-  ["P1","January 2025 WMA11/01 Full Paper"],
-  ["P1","January 2025 WMA11/01 Mark + Correct"],
-  ["U1","Redo every recurring U1 mistake"],
-  ["U1","Mechanics final formula/method consolidation"],
-  ["U1","Materials final formula/definition consolidation"],
-  ["U1","Final calculation practice using previous mistakes"],
-  ["P1","Redo every recurring P1 mistake"],
-  ["P1","Final formula/method consolidation"],
-  ["P1","Final timed practice"],
-  ["P1","Mark and correct final timed practice"]
+  ["U1","June 2025 WPH11/01 Full Paper","core"],
+  ["U1","June 2025 WPH11/01 Mark + Correct","core"],
+  ["P1","June 2025 WMA11/01 Full Paper","core"],
+  ["P1","June 2025 WMA11/01 Mark + Correct","core"],
+  ["P2","June 2025 WMA12/01 Full Paper","core"],
+  ["P2","June 2025 WMA12/01 Mark + Correct","core"],
+  ["M1","June 2025 WME01/01 Full Paper","core"],
+  ["M1","June 2025 WME01/01 Mark + Correct","core"],
+  ["U2","June 2025 WPH12/01 Full Paper","bonus"],
+  ["U2","June 2025 WPH12/01 Mark + Correct","bonus"],
+  ["U1","Final mechanics + materials mistake corrections","bonus"],
+  ["P1","Final recurring-mistake corrections","bonus"]
 ]],
 ["10-07","October 7",2026,9,7,[
-  ["U1","October 2025 WPH11/01 Full Paper"],
-  ["U1","October 2025 WPH11/01 Mark + Correct"],
-  ["U1","Redo every mistake from the October 2025 paper"],
-  ["U1","Mechanics final consolidation"],
-  ["U1","Materials final consolidation"],
-  ["P1","June 2025 WMA11/01 Full Paper"],
-  ["P1","June 2025 WMA11/01 Mark + Correct"],
-  ["P1","Redo every mistake from the June 2025 paper"],
-  ["P1","Formulae and methods final consolidation"],
-  ["P1","Final timed practice"],
-  ["P1","Mark and correct final timed practice"]
+  ["U1","October 2025 WPH11/01 Full Paper","core"],
+  ["U1","October 2025 WPH11/01 Mark + Correct","core"],
+  ["P1","January 2025 WMA11/01 Full Paper","core"],
+  ["P1","January 2025 WMA11/01 Mark + Correct","core"],
+  ["M1","January 2026 WME01/01 Full Paper","core"],
+  ["M1","January 2026 WME01/01 Mark + Correct","core"],
+  ["P2","January 2026 WMA12/01 Full Paper","core"],
+  ["P2","January 2026 WMA12/01 Mark + Correct","core"],
+  ["U1","Final mechanics formulae + methods","bonus"],
+  ["U1","Final materials formulae + definitions","bonus"],
+  ["P1","Final formulae + methods","bonus"],
+  ["P1","Final timed practice + correction","bonus"]
 ]],
 ["10-08","October 8",2026,9,8,[
-  ["U1","PHYSICS U1 EXAM — WPH11"],
-  ["GEN","Rest and eat properly after the exam"],
-  ["P1","Formula review"],
-  ["P1","Previous paper mistakes"],
-  ["P1","Timed practice"],
-  ["P1","Mark and correct timed practice"],
-  ["M1","Formulae and methods"],
-  ["M1","Weakest previous mistakes"],
-  ["P2","Formulae"],
-  ["P2","Weakest previous mistakes"],
-  ["U2","Formulae"],
-  ["U2","Weakest previous mistakes"]
+  ["U1","PHYSICS U1 EXAM — WPH11","exam"],
+  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
+  ["P1","Formulae + methods from your mistake log","core"],
+  ["P1","Timed P1 practice","core"],
+  ["P1","Mark + correct the timed practice","core"],
+  ["M1","Formulae + methods","core"],
+  ["M1","Redo recurring mistakes","core"],
+  ["P2","Formulae + methods","core"],
+  ["P2","Redo recurring mistakes","bonus"],
+  ["U2","Formulae + definitions","bonus"],
+  ["U2","Redo recurring mistakes","bonus"]
 ]],
 ["10-09","October 9",2026,9,9,[
-  ["P1","MATHS P1 EXAM — WMA11"],
-  ["GEN","Rest and eat properly after the exam"],
-  ["M1","January 2026 WME01/01 Full Paper"],
-  ["M1","January 2026 WME01/01 Mark + Correct"],
-  ["M1","Redo every mistake"],
-  ["P2","January 2026 WMA12/01 Full Paper"],
-  ["P2","January 2026 WMA12/01 Mark + Correct"],
-  ["P2","Redo every mistake"],
-  ["U2","January 2026 WPH12/01 Full Paper"],
-  ["U2","January 2026 WPH12/01 Mark + Correct"],
-  ["U2","Redo every mistake"],
-  ["U3","Experimental skills"]
+  ["P1","MATHS P1 EXAM — WMA11","exam"],
+  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
+  ["M1","January 2026 WME01/01 Full Paper","core"],
+  ["M1","January 2026 WME01/01 Mark + Correct","core"],
+  ["M1","Redo every mistake","core"],
+  ["P2","January 2026 WMA12/01 Full Paper","core"],
+  ["P2","January 2026 WMA12/01 Mark + Correct","core"],
+  ["P2","Redo every mistake","core"],
+  ["U2","January 2026 WPH12/01 Full Paper","bonus"],
+  ["U2","January 2026 WPH12/01 Mark + Correct","bonus"],
+  ["U3","Experimental skills","bonus"]
 ]],
 ["10-10","October 10",2026,9,10,[
-  ["M1","June 2025 WME01/01 Full Paper"],
-  ["M1","June 2025 WME01/01 Mark + Correct"],
-  ["P2","June 2025 WMA12/01 Full Paper"],
-  ["P2","June 2025 WMA12/01 Mark + Correct"],
-  ["U2","June 2025 WPH12/01 Full Paper"],
-  ["U2","June 2025 WPH12/01 Mark + Correct"],
-  ["M1","Redo recurring mistakes"],
-  ["M1","Formulae and methods"],
-  ["P2","Redo recurring mistakes"],
-  ["P2","Formulae and methods"],
-  ["U2","Redo recurring mistakes"],
-  ["U2","Formulae and definitions"]
+  ["M1","June 2025 WME01/01 Full Paper","core"],
+  ["M1","June 2025 WME01/01 Mark + Correct","core"],
+  ["P2","June 2025 WMA12/01 Full Paper","core"],
+  ["P2","June 2025 WMA12/01 Mark + Correct","core"],
+  ["U2","June 2025 WPH12/01 Full Paper","core"],
+  ["U2","June 2025 WPH12/01 Mark + Correct","core"],
+  ["M1","Redo recurring mistakes + formulae","core"],
+  ["P2","Redo recurring mistakes + formulae","core"],
+  ["U2","Redo recurring mistakes + definitions","core"],
+  ["U3","Uncertainties","bonus"],
+  ["U3","Graphs","bonus"],
+  ["U3","Planning","bonus"]
 ]],
 ["10-11","October 11",2026,9,11,[
-  ["M1","October 2025 WME01/01 Full Paper"],
-  ["M1","October 2025 WME01/01 Mark + Correct"],
-  ["P2","October 2025 WMA12/01 Full Paper"],
-  ["P2","October 2025 WMA12/01 Mark + Correct"],
-  ["U2","October 2025 WPH12/01 Full Paper"],
-  ["U2","October 2025 WPH12/01 Mark + Correct"],
-  ["M1","Redo recurring mistakes"],
-  ["M1","Formulae and methods"],
-  ["P2","Redo recurring mistakes"],
-  ["P2","Formulae and methods"],
-  ["U2","Redo recurring mistakes"],
-  ["U2","Formulae and definitions"]
+  ["M1","October 2025 WME01/01 Full Paper","core"],
+  ["M1","October 2025 WME01/01 Mark + Correct","core"],
+  ["P2","October 2025 WMA12/01 Full Paper","core"],
+  ["P2","October 2025 WMA12/01 Mark + Correct","core"],
+  ["U2","October 2025 WPH12/01 Full Paper","core"],
+  ["U2","October 2025 WPH12/01 Mark + Correct","core"],
+  ["M1","Redo every mistake","core"],
+  ["P2","Redo every mistake","core"],
+  ["U2","Redo every mistake","core"],
+  ["M1","Final formulae + methods","bonus"],
+  ["P2","Final formulae + methods","bonus"],
+  ["U2","Final formulae + definitions","bonus"]
 ]],
 ["10-12","October 12",2026,9,12,[
-  ["M1","June 2026 WME01/01 Full Paper"],
-  ["M1","June 2026 WME01/01 Mark + Correct"],
-  ["M1","Redo every mistake"],
-  ["M1","Final mechanics/method consolidation"],
-  ["M1","Final formula consolidation"],
-  ["M1","Final timed practice"],
-  ["P2","June 2026 WMA12/01 Full Paper"],
-  ["P2","June 2026 WMA12/01 Mark + Correct"],
-  ["P2","Redo every mistake"],
-  ["U2","June 2026 WPH12/01 Full Paper"],
-  ["U2","June 2026 WPH12/01 Mark + Correct"],
-  ["U2","Redo every mistake"]
+  ["M1","June 2026 WME01/01 Full Paper","core"],
+  ["M1","June 2026 WME01/01 Mark + Correct","core"],
+  ["M1","Redo every mistake","core"],
+  ["P2","June 2026 WMA12/01 Full Paper","core"],
+  ["P2","June 2026 WMA12/01 Mark + Correct","core"],
+  ["P2","Redo every mistake","core"],
+  ["U2","June 2026 WPH12/01 Full Paper","core"],
+  ["U2","June 2026 WPH12/01 Mark + Correct","core"],
+  ["U2","Redo every mistake","core"],
+  ["M1","Final methods","bonus"],
+  ["P2","Final methods","bonus"],
+  ["U2","Final definitions","bonus"]
 ]],
 ["10-13","October 13",2026,9,13,[
-  ["M1","MATHS M1 EXAM — WME01"],
-  ["GEN","Rest and eat properly after the exam"],
-  ["P2","Formulae"],
-  ["P2","All previous mistakes"],
-  ["P2","Timed practice"],
-  ["P2","Mark and correct timed practice"],
-  ["U2","Formulae"],
-  ["U2","All previous mistakes"],
-  ["U2","Timed practice"],
-  ["U2","Mark and correct timed practice"],
-  ["U3","Experimental skills"],
-  ["U3","Practical questions"]
+  ["M1","MATHS M1 EXAM — WME01","exam"],
+  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
+  ["P2","Formulae","core"],
+  ["P2","Redo every previous mistake","core"],
+  ["P2","Timed practice + mark + correct","core"],
+  ["U2","Formulae + definitions","core"],
+  ["U2","Redo every previous mistake","core"],
+  ["U2","Timed practice + mark + correct","core"],
+  ["U3","Experimental skills","bonus"],
+  ["U3","Practical questions","bonus"]
 ]],
 ["10-14","October 14",2026,9,14,[
-  ["P2","October 2025 WMA12/01 Full Paper"],
-  ["P2","October 2025 WMA12/01 Mark + Correct"],
-  ["P2","Redo every mistake"],
-  ["P2","Series final consolidation"],
-  ["P2","Trigonometry final consolidation"],
-  ["P2","Calculus final consolidation"],
-  ["U2","October 2025 WPH12/01 Full Paper"],
-  ["U2","October 2025 WPH12/01 Mark + Correct"],
-  ["U2","Redo every mistake"],
-  ["U2","Waves final consolidation"],
-  ["U2","Electricity final consolidation"],
-  ["U2","Final formula/definition consolidation"]
+  ["P2","October 2025 WMA12/01 Full Paper","core"],
+  ["P2","October 2025 WMA12/01 Mark + Correct","core"],
+  ["P2","Redo every mistake","core"],
+  ["P2","Series final consolidation","core"],
+  ["P2","Trigonometry final consolidation","core"],
+  ["P2","Calculus final consolidation","core"],
+  ["U2","October 2025 WPH12/01 Full Paper","core"],
+  ["U2","October 2025 WPH12/01 Mark + Correct","core"],
+  ["U2","Redo every mistake","core"],
+  ["U2","Waves final consolidation","bonus"],
+  ["U2","Electricity final consolidation","bonus"],
+  ["U2","Final formula + definition sheet","bonus"]
 ]],
 ["10-15","October 15",2026,9,15,[
-  ["P2","MATHS P2 EXAM — WMA12"],
-  ["U2","PHYSICS U2 EXAM — WPH12"],
-  ["GEN","Rest and eat properly"],
-  ["U3","Experimental skills"],
-  ["U3","Uncertainties"],
-  ["U3","Graphs"],
-  ["U3","Planning"],
-  ["U3","Data analysis"],
-  ["U3","Practical paper"],
-  ["U3","Mark and correct practical paper"],
-  ["U3","Redo mistakes"],
-  ["U3","Experimental techniques and equations"]
+  ["P2","MATHS P2 EXAM — WMA12","exam"],
+  ["U2","PHYSICS U2 EXAM — WPH12","exam"],
+  ["GEN","Eat, hydrate, and properly reset after the exams","core"],
+  ["U3","Experimental skills","core"],
+  ["U3","Uncertainties","core"],
+  ["U3","Graphs","core"],
+  ["U3","Planning","core"],
+  ["U3","Data analysis","core"],
+  ["U3","Practical paper","core"],
+  ["U3","Mark + correct practical paper","core"],
+  ["U3","Redo mistakes","bonus"],
+  ["U3","Experimental techniques + equations","bonus"]
 ]],
 ["10-16","October 16",2026,9,16,[
-  ["U3","January 2024 WPH13/01 Full Paper"],
-  ["U3","January 2024 WPH13/01 Mark + Correct"],
-  ["U3","Redo every mistake"],
-  ["U3","Experimental skills"],
-  ["U3","Uncertainties"],
-  ["U3","Graphs"],
-  ["U3","Planning"],
-  ["U3","Data analysis"],
-  ["U3","Terminology"],
-  ["U3","Calculations"],
-  ["U3","Practical paper-question review"],
-  ["U3","Mistake log corrections"]
+  ["U3","January 2024 WPH13/01 Full Paper","core"],
+  ["U3","January 2024 WPH13/01 Mark + Correct","core"],
+  ["U3","Redo every mistake","core"],
+  ["U3","Experimental skills","core"],
+  ["U3","Uncertainties","core"],
+  ["U3","Graphs","core"],
+  ["U3","Planning","core"],
+  ["U3","Data analysis","core"],
+  ["U3","Terminology","core"],
+  ["U3","Calculations","core"],
+  ["U3","Practical paper questions","bonus"],
+  ["U3","Mistake corrections","bonus"]
 ]],
 ["10-17","October 17",2026,9,17,[
-  ["U3","June 2024 WPH13/01 Full Paper"],
-  ["U3","June 2024 WPH13/01 Mark + Correct"],
-  ["U3","Redo every mistake"],
-  ["U3","October 2024 WPH13/01 Full Paper"],
-  ["U3","October 2024 WPH13/01 Mark + Correct"],
-  ["U3","Redo every mistake"],
-  ["U3","Experimental skills"],
-  ["U3","Uncertainties"],
-  ["U3","Graphs"],
-  ["U3","Planning"],
-  ["U3","Data analysis"],
-  ["U3","Recurring mistake corrections"]
+  ["U3","June 2024 WPH13/01 Full Paper","core"],
+  ["U3","June 2024 WPH13/01 Mark + Correct","core"],
+  ["U3","Redo every mistake","core"],
+  ["U3","October 2024 WPH13/01 Full Paper","core"],
+  ["U3","October 2024 WPH13/01 Mark + Correct","core"],
+  ["U3","Redo every mistake","core"],
+  ["U3","Experimental skills","core"],
+  ["U3","Uncertainties","core"],
+  ["U3","Graphs","core"],
+  ["U3","Planning","core"],
+  ["U3","Data analysis","bonus"],
+  ["U3","Recurring mistake corrections","bonus"]
 ]],
 ["10-18","October 18",2026,9,18,[
-  ["U3","January 2025 WPH13/01 Full Paper"],
-  ["U3","January 2025 WPH13/01 Mark + Correct"],
-  ["U3","Redo every mistake"],
-  ["U3","June 2025 WPH13/01 Full Paper"],
-  ["U3","June 2025 WPH13/01 Mark + Correct"],
-  ["U3","Redo every mistake"],
-  ["U3","Experimental skills final consolidation"],
-  ["U3","Uncertainties and graphs final consolidation"],
-  ["U3","Planning and data analysis final consolidation"],
-  ["U3","Final mistake sheet"]
+  ["U3","January 2025 WPH13/01 Full Paper","core"],
+  ["U3","January 2025 WPH13/01 Mark + Correct","core"],
+  ["U3","Redo every mistake","core"],
+  ["U3","June 2025 WPH13/01 Full Paper","core"],
+  ["U3","June 2025 WPH13/01 Mark + Correct","core"],
+  ["U3","Redo every mistake","core"],
+  ["U3","Experimental skills final consolidation","core"],
+  ["U3","Uncertainties + graphs final consolidation","core"],
+  ["U3","Planning + data final consolidation","core"],
+  ["U3","Final mistake sheet","core"]
 ]],
 ["10-19","October 19",2026,9,19,[
-  ["U3","PHYSICS U3 EXAM — WPH13"]
+  ["U3","PHYSICS U3 EXAM — WPH13","exam"]
 ]]
 ];
 
@@ -802,16 +788,16 @@ function classify(subject, text){
 const DAYS = RAW_DAYS.map(function(d){
   var id=d[0], label=d[1], year=d[2], month=d[3], date=d[4], raw=d[5];
   var tasks = raw.map(function(t,i){
-    var subject=t[0], text=t[1];
+    var subject=t[0], text=t[1], priority=t[2] || "core";
     var type = classify(subject, text);
-    return {idx:i, subject:subject, text:text, type:type};
+    return {idx:i, subject:subject, text:text, type:type, priority:priority};
   });
   var hasExam = tasks.some(function(t){return t.type==="exam";});
   return {id:id, label:label, year:year, month:month, date:date, tasks:tasks, hasExam:hasExam};
 });
 
 /* ---------- STATE ---------- */
-var STORE_KEY = "studyplan_v1_done";
+var STORE_KEY = "examgrind_recovery_v2_done";
 var doneMap = {};
 try{
   var stored = localStorage.getItem(STORE_KEY);
@@ -853,7 +839,11 @@ function dayCompletion(day){
   var list = nonExamTasks(day);
   var total = list.length;
   var done = list.filter(function(t){ return isDone(day.id, t.idx); }).length;
-  return {done:done, total:total};
+  var core = list.filter(function(t){ return t.priority !== "bonus"; });
+  var bonus = list.filter(function(t){ return t.priority === "bonus"; });
+  var coreDone = core.filter(function(t){ return isDone(day.id, t.idx); }).length;
+  var bonusDone = bonus.filter(function(t){ return isDone(day.id, t.idx); }).length;
+  return {done:done, total:total, coreDone:coreDone, coreTotal:core.length, bonusDone:bonusDone, bonusTotal:bonus.length};
 }
 function overallCompletion(){
   var total=0, done=0;
@@ -891,7 +881,15 @@ var els = {
   taskList: document.getElementById("taskList"),
   statusFilters: document.getElementById("statusFilters"),
   subjectFilters: document.getElementById("subjectFilters"),
-  resetBtn: document.getElementById("resetBtn")
+  resetBtn: document.getElementById("resetBtn"),
+  driveTitle: document.getElementById("driveTitle"),
+  driveSub: document.getElementById("driveSub"),
+  coreDone: document.getElementById("coreDone"),
+  coreTotal: document.getElementById("coreTotal"),
+  bonusDone: document.getElementById("bonusDone"),
+  bonusTotal: document.getElementById("bonusTotal"),
+  daysLeft: document.getElementById("daysLeft"),
+  focusBtn: document.getElementById("focusBtn")
 };
 
 function render(){
@@ -905,13 +903,60 @@ function render(){
   els.daySub.textContent = c.total + " SESSION" + (c.total===1?"":"S") + (day.hasExam ? " · EXAM DAY" : "");
   els.dayLabel.style.color = day.hasExam ? "var(--exam)" : "var(--ink)";
 
-  els.dayCount.innerHTML = c.done + " / " + c.total + " <span>completed</span>";
+  els.dayCount.innerHTML = c.coreDone + " / " + c.coreTotal + " <span>core · " + c.bonusDone + " / " + c.bonusTotal + " bonus</span>";
   els.dayFill.style.width = (c.total? (c.done/c.total*100):0) + "%";
 
   var overall = overallCompletion();
   els.overallFill.style.width = (overall.total ? (overall.done/overall.total*100) : 0) + "%";
 
   els.streakNum.textContent = computeStreak();
+
+  var corePercent = c.coreTotal ? Math.round(c.coreDone / c.coreTotal * 100) : 0;
+  els.coreDone.textContent = c.coreDone;
+  els.coreTotal.textContent = c.coreTotal;
+  els.bonusDone.textContent = c.bonusDone;
+  els.bonusTotal.textContent = c.bonusTotal;
+  var nowForCountdown = new Date(2026, 8, 25);
+  var examDates = [
+    {d:new Date(2026,8,25), label:"U1 · Oct 8"},
+    {d:new Date(2026,8,25), label:"P1 · Oct 9"},
+    {d:new Date(2026,8,25), label:"M1 · Oct 13"},
+    {d:new Date(2026,8,25), label:"P2 + U2 · Oct 15"},
+    {d:new Date(2026,8,25), label:"U3 · Oct 19"}
+  ];
+  var targetExam = null;
+  for(var ei=0;ei<DAYS.length;ei++){
+    if(DAYS[ei].hasExam){
+      var ex = DAYS[ei];
+      var exDate = new Date(ex.year, ex.month-1, ex.date);
+      if(exDate >= new Date(day.year,day.month-1,day.date)) { targetExam={date:exDate,label:ex.tasks.filter(function(t){return t.type==='exam';})[0].subject}; break; }
+    }
+  }
+  if(targetExam){
+    var diffDays = Math.ceil((targetExam.date - new Date(day.year,day.month-1,day.date))/86400000);
+    els.daysLeft.textContent = diffDays === 0 ? "EXAM TODAY" : diffDays + "d to " + targetExam.label;
+  }else{
+    els.daysLeft.textContent = "Exams complete";
+  }
+
+  var nextTask = day.tasks.filter(function(t){ return t.type !== "exam" && !isDone(day.id,t.idx); })[0];
+  if(c.coreDone === c.coreTotal && c.coreTotal > 0){
+    if(c.bonusTotal > 0 && c.bonusDone < c.bonusTotal){
+      els.driveTitle.textContent = "CORE CLEARED. Now take the bonus work.";
+      els.driveSub.textContent = "You have done the important work today. Finish the extras if you still have the energy.";
+    }else{
+      els.driveTitle.textContent = "DAY CLEARED. Do not break the chain.";
+      els.driveSub.textContent = "Everything planned for today is complete. Protect your sleep and come back tomorrow.";
+    }
+  }else if(nextTask){
+    els.driveTitle.textContent = "Next: " + nextTask.text;
+    els.driveSub.textContent = corePercent >= 70 ? "You're close. Finish the core and the day is yours." : "Don't think about the whole timetable. Just finish this checkbox.";
+  }else{
+    els.driveTitle.textContent = "Start the first task.";
+    els.driveSub.textContent = "One checkbox at a time. Get the core work done first.";
+  }
+  els.focusBtn.textContent = nextTask ? "GO TO NEXT TASK" : "DAY COMPLETE";
+  els.focusBtn.disabled = !nextTask;
 
   // exam banners
   els.examBannerHolder.innerHTML = "";
@@ -949,6 +994,14 @@ function render(){
     list.forEach(function(t){
       els.taskList.appendChild(renderTask(day, t));
     });
+    if(statusFilter === "all" && subjectFilter === "all" && c.coreTotal > 0){
+      var finish = document.createElement("div");
+      finish.className = "finish-line" + (c.coreDone === c.coreTotal ? " done" : "");
+      finish.textContent = c.coreDone === c.coreTotal
+        ? (c.bonusDone === c.bonusTotal ? "✓ COMPLETE. TODAY IS DONE." : "✓ CORE COMPLETE. BONUS WORK IS OPTIONAL.")
+        : (c.coreTotal - c.coreDone) + " core task" + (c.coreTotal - c.coreDone === 1 ? "" : "s") + " left. Keep going.";
+      els.taskList.appendChild(finish);
+    }
   }
 }
 
@@ -972,7 +1025,7 @@ function taskColor(t){
 function renderTask(day, t){
   var done = isDone(day.id, t.idx);
   var el = document.createElement("div");
-  el.className = "task type-" + t.type + (done ? " done" : "");
+  el.className = "task type-" + t.type + " priority-" + t.priority + (done ? " done" : "");
   var subjColor = taskColor(t);
   el.style.borderLeftColor = subjColor;
   if(done){
@@ -1002,6 +1055,7 @@ function renderTask(day, t){
   }
   top.innerHTML = subjTag +
     '<span class="sess-num">Session ' + (t.idx+1) + '</span>' +
+    '<span class="priority-tag ' + t.priority + '">' + (t.priority === "bonus" ? "BONUS" : "CORE") + '</span>' +
     '<span class="type-tag ' + t.type + '">' + typeLabel(t.type) + '</span>';
 
   var txt = document.createElement("div");
@@ -1099,6 +1153,29 @@ els.subjectFilters.addEventListener("click", function(e){
   render();
 });
 paintSubjectChips();
+
+els.focusBtn.addEventListener("click", function(){
+  var day = DAYS[currentDayIndex];
+  var next = day.tasks.filter(function(t){ return t.type !== "exam" && !isDone(day.id,t.idx); })[0];
+  if(!next) return;
+  subjectFilter = "all";
+  statusFilter = "all";
+  Array.prototype.forEach.call(els.statusFilters.children, function(c){ c.classList.toggle("active", c.getAttribute("data-f")==="all"); });
+  paintSubjectChips();
+  render();
+  setTimeout(function(){
+    var cards = els.taskList.querySelectorAll(".task");
+    for(var i=0;i<cards.length;i++){
+      var card = cards[i];
+      if(card.querySelector(".task-text") && card.querySelector(".task-text").textContent === next.text){
+        card.classList.add("next-focus");
+        card.scrollIntoView({behavior:"smooth",block:"center"});
+        setTimeout(function(){ card.classList.remove("next-focus"); },1400);
+        break;
+      }
+    }
+  },40);
+});
 
 els.resetBtn.addEventListener("click", function(){
   if(confirm("Are you sure you want to reset all progress?")){
