@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Exam Grind · October A-Level Plan</title>
+<title>October Exam Grind — Hard Lock-In</title>
 <style>
   :root{
     --bg:#0b0d10;
@@ -59,6 +59,8 @@
   .brand h1{
     font-size:1.05rem;font-weight:650;letter-spacing:.01em;margin:0;color:var(--ink);
   }
+  .lockin-badge{display:inline-block;margin-left:7px;padding:3px 7px;border-radius:7px;font-size:.55em;letter-spacing:.08em;background:linear-gradient(135deg,#f2b134,#f472b6);color:#0b0d10;vertical-align:middle;box-shadow:0 0 16px rgba(242,177,52,.2);}
+
   .streak{
     display:flex;align-items:center;gap:6px;
     font-size:.82rem;color:var(--ink-dim);font-weight:500;
@@ -132,6 +134,16 @@
 
   .task-list{display:flex;flex-direction:column;gap:9px;}
 
+  .task{position:relative;overflow:visible;}
+  .task-info{position:absolute;right:12px;top:10px;z-index:20;}
+  .task-info-btn{width:22px;height:22px;border-radius:50%;border:1px solid #59616b;background:rgba(20,24,29,.92);color:#aeb7c2;font-size:12px;font-weight:800;line-height:20px;text-align:center;padding:0;cursor:help;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease,border-color .16s ease;}
+  .task:hover .task-info-btn,.task:focus-within .task-info-btn{opacity:1;pointer-events:auto;}
+  .task-info-btn:hover{transform:scale(1.08);border-color:#fff;color:#fff;}
+  .task-info-pop{position:absolute;right:0;top:28px;width:min(390px,calc(100vw - 34px));max-height:min(55vh,420px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:14px 15px;border:1px solid #3b434d;border-radius:12px;background:rgba(16,19,24,.98);box-shadow:0 16px 38px rgba(0,0,0,.5);color:#e8edf2;font-size:.79rem;line-height:1.5;display:none;}
+  .task-info:hover .task-info-pop,.task-info:focus-within .task-info-pop{display:block;}
+  .task-info-pop strong{display:block;color:#fff;margin-bottom:5px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;}
+  .task-info-pop::-webkit-scrollbar{width:6px;}
+  .task-info-pop::-webkit-scrollbar-thumb{background:#4b5560;border-radius:99px;}
   .task{
     display:flex;align-items:flex-start;gap:12px;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
@@ -263,45 +275,21 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
-/* ---------- MOTIVATION / CHECKLIST UPGRADE ---------- */
-.drive-card{
-  background:linear-gradient(145deg,#151b1d,#101417 70%);
-  border:1px solid #29423d;border-radius:16px;padding:15px 15px 13px;margin:0 0 14px;
-  box-shadow:0 12px 30px -22px rgba(95,184,168,.7),inset 0 0 24px -18px rgba(95,184,168,.8);
-}
-.drive-kicker{font-size:.66rem;letter-spacing:.12em;font-weight:800;color:var(--accent);margin-bottom:5px}
-.drive-title{font-size:1.03rem;font-weight:750;line-height:1.25}
-.drive-sub{font-size:.78rem;color:var(--ink-dim);line-height:1.35;margin-top:4px}
-.drive-stats{display:flex;gap:7px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
-.drive-stats::-webkit-scrollbar{display:none}
-.drive-stats div{white-space:nowrap;background:#0d1114;border:1px solid #252f31;border-radius:9px;padding:6px 9px;font-size:.72rem;color:var(--ink-dim)}
-.drive-stats b{color:var(--ink);font-weight:800}
-.focus-btn{width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-dim);color:var(--accent);font-size:.76rem;font-weight:800;letter-spacing:.04em}
-.focus-btn:active{transform:scale(.98)}
-.foundation-note{font-size:.73rem;line-height:1.35;color:var(--ink-faint);margin:-5px 3px 14px}
-.foundation-note b{color:var(--ink-dim)}
-.task.priority-core{box-shadow:0 0 0 1px rgba(255,255,255,.035),0 7px 18px -13px rgba(0,0,0,.8)}
-.task.priority-bonus{opacity:.86}
-.priority-tag{font-size:.61rem;font-weight:800;letter-spacing:.06em;border-radius:6px;padding:2px 6px}
-.priority-tag.core{color:#a7e4d8;background:#1c3430}
-.priority-tag.bonus{color:#9aa4ae;background:#20252a}
-.finish-line{margin-top:10px;padding:9px 11px;border-radius:10px;background:#10201d;border:1px solid #25453f;color:#9eddd1;font-size:.76rem;font-weight:700;text-align:center}
-.finish-line.done{background:#173027;border-color:#3b786b;color:#b8eee4}
-.task.next-focus{box-shadow:0 0 0 1px var(--accent),0 0 24px -8px rgba(95,184,168,.65)!important;transform:translateY(-1px)}
-@media(max-width:420px){
-  .drive-title{font-size:1rem}
-  .drive-sub{font-size:.75rem}
-  .task{padding:12px 12px}
-  .task-text{font-size:.9rem}
-}
 
+  .hard-badge{display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:4px 8px;border-radius:8px;font-size:.58em;letter-spacing:.08em;background:linear-gradient(135deg,#f472b6,#ef8354);color:#0b0d10;font-weight:800;box-shadow:0 0 18px rgba(244,114,182,.18);}
+  .task-time{font-size:.72rem;color:var(--ink-dim);font-weight:750;margin:4px 0 6px;letter-spacing:.01em;}
+  .free-note{font-size:.65rem;color:var(--accent);margin-top:7px;opacity:.8;}
+  .hour-break{margin:12px 0 14px;padding:13px 14px;border:1px dashed rgba(122,143,176,.55);border-radius:14px;background:linear-gradient(135deg,rgba(122,143,176,.10),rgba(20,23,27,.8));text-align:center;}
+  .hour-break span{display:block;font-size:.68rem;font-weight:850;letter-spacing:.12em;color:#9eb2d4;}
+  .hour-break small{display:block;margin-top:5px;color:var(--ink-dim);font-size:.68rem;}
+  .schedule-note{font-size:.72rem;color:var(--ink-dim);line-height:1.45;margin:8px 0 14px;padding:10px 12px;border-left:3px solid var(--accent);background:rgba(95,184,168,.06);border-radius:8px;}
 </style>
 </head>
 <body>
 <div id="app">
   <header class="top">
     <div class="brand">
-      <h1>Exam Grind</h1>
+      <h1>Exam Countdown <span class="lockin-badge">A* LOCK-IN</span></h1>
       <div class="streak">🔥 <b id="streakNum">0</b><span>&nbsp;day streak</span></div>
     </div>
     <div class="overall-bar"><div id="overallFill" style="width:0%"></div></div>
@@ -317,19 +305,7 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
 
     <div class="quick-row">
       <button class="quick-btn" id="todayBtn">Today</button>
-      <button class="quick-btn" id="nextUnfinishedBtn">Focus next</button>
-    </div>
-
-    <div class="drive-card" id="driveCard">
-      <div class="drive-kicker">TODAY'S MISSION</div>
-      <div class="drive-title" id="driveTitle">Start the first task.</div>
-      <div class="drive-sub" id="driveSub">One checkbox at a time. Get the core work done first.</div>
-      <div class="drive-stats">
-        <div><b id="coreDone">0</b>/<span id="coreTotal">0</span> core</div>
-        <div><b id="bonusDone">0</b>/<span id="bonusTotal">0</span> bonus</div>
-        <div id="daysLeft">—</div>
-      </div>
-      <button class="focus-btn" id="focusBtn">GO TO NEXT TASK</button>
+      <button class="quick-btn" id="nextUnfinishedBtn">Next unfinished</button>
     </div>
   </header>
 
@@ -337,9 +313,8 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
     <div class="count" id="dayCount">0 / 0</div>
     <div class="mini-bar"><div id="dayFill" style="width:0%"></div></div>
   </div>
-  <div class="foundation-note">You already banked <b>11/12 sessions</b> on Sep 21. This plan starts fresh from <b>September 25</b>.</div>
 
-  <div id="examBannerHolder"></div>
+  <div id="examBannerHolder"></div><div class="schedule-note"><b>How the clock works:</b> every block is a maximum allocation. Finish the task early and the unused time is yours. The day has two full 1-hour breaks built into the clock. Take the full break shown below. Papers are timed; marking/correction is a separate block.</div>
 
   <div class="filters" id="statusFilters">
     <button class="chip active" data-f="all">All</button>
@@ -369,340 +344,218 @@ body::after{width:260px;height:260px;right:-110px;bottom:10vh;background:rgba(16
 // [subject, text] pairs per day. Subject is the study unit; for EXAM lines the
 // subject is the unit being examined; REST lines use 'GEN'.
 const RAW_DAYS = [
-["09-25","September 25",2026,8,25,[
-  ["U2","V3 Intensity","core"],
-  ["P2","V28 Recurrence Relations","core"],
-  ["P2","V29 Modelling with Series","core"],
-  ["P2","V30 Angles in all four Quadrants","core"],
-  ["M1","V7","core"],
-  ["M1","V8","core"],
-  ["U1","V5 Projectile motion 2","core"],
-  ["U2","V4 Diffraction","core"],
-  ["M1","V9","core"],
-  ["P1","June 2024 WMA11/01 Full Paper","core"],
-  ["P1","June 2024 WMA11/01 Mark + Correct","bonus"],
-  ["P2","V31 Exact values of trig ratios","bonus"]
-]],
 ["09-26","September 26",2026,8,26,[
-  ["P2","V32 Trig identities","core"],
-  ["P2","V33 Simple trig equations","core"],
-  ["P2","V34 Harder trig equations","core"],
-  ["M1","V10","core"],
-  ["M1","V11","core"],
-  ["M1","V12–V13","core"],
-  ["U1","V6 Forces, Resultants, Free-body diagrams, Equilibrium, Newton's laws, Moments","core"],
-  ["U2","V5 Refraction, Critical Angle, Total Internal Reflection","core"],
-  ["U2","V6 Constructive and Destructive Interference","core"],
-  ["P1","January 2025 WMA11/01 Full Paper","core"],
-  ["P1","January 2025 WMA11/01 Mark + Correct","bonus"],
-  ["M1","V14–V15","bonus"]
+    ["U2","V3 Intensity",60],
+    ["P2","V28 Recurrence Relations + V29 Modelling with Series",60],
+    ["P2","V30 Angles in all four Quadrants",60],
+    ["M1","V7 + V8 \u2014 Part 1",60],
+    ["M1","V8 \u2014 Part 2 + V9",60],
+    ["U1","V5 Projectile motion 2",60],
+    ["U2","V4 Diffraction",60],
+    ["U2","V5 Refraction, Critical Angle, Total Internal Reflection \u2014 Part 1",60]
 ]],
 ["09-27","September 27",2026,8,27,[
-  ["P2","V35 Equations and Identities","core"],
-  ["P2","V36 Increasing/Decreasing Functions","core"],
-  ["P2","V37 Stationary Points","core"],
-  ["P2","V38 Sketching gradient functions","core"],
-  ["M1","V14–V15","core"],
-  ["M1","V16–V17","core"],
-  ["U1","V7 Work, Energy and Power","core"],
-  ["U2","V7 Diffraction Grating","core"],
-  ["U2","V8 Standing Waves","core"],
-  ["P1","October 2024 WMA11/01 Full Paper","core"],
-  ["P1","October 2024 WMA11/01 Mark + Correct","bonus"],
-  ["M1","V18","bonus"]
+    ["U2","V5 Refraction, Critical Angle, Total Internal Reflection \u2014 Part 2",60],
+    ["P2","V31 Exact values of trig ratios + V32 Trig identities",60],
+    ["P2","V33 Simple trig equations + V34 Harder trig equations",60],
+    ["M1","V10\u2013V13",60],
+    ["U1","V6 Forces, Resultants, Free-body diagrams, Equilibrium, Newton's laws, Moments \u2014 Part 1",60],
+    ["U1","V6 \u2014 Part 2",60],
+    ["U1","V7 Work, Energy and Power",60],
+    ["U2","V6 Constructive/Destructive Interference \u2014 Part 1",60]
 ]],
 ["09-28","September 28",2026,8,28,[
-  ["P2","V39 Modelling with differentiation","core"],
-  ["P2","V40 Definite integrals","core"],
-  ["P2","V41 Areas under curves","core"],
-  ["P2","V42 Areas under x-axis","core"],
-  ["M1","V19–V20","core"],
-  ["M1","V21–V22","core"],
-  ["U1","V8 Fluids and Materials — Part 1","core"],
-  ["U2","V9 Polarisation","core"],
-  ["U2","V10 Pulse Echo","core"],
-  ["P1","June 2025 WMA11/01 Full Paper","core"],
-  ["P1","June 2025 WMA11/01 Mark + Correct","bonus"],
-  ["P2","V43 Areas between curves and lines","bonus"]
+    ["U2","V6 Constructive/Destructive Interference \u2014 Part 2",60],
+    ["U2","V7 Diffraction Grating \u2014 Part 1",60],
+    ["U2","V7 \u2014 Part 2",60],
+    ["U2","V8 Standing Waves \u2014 Part 1",60],
+    ["U2","V8 \u2014 Part 2",60],
+    ["U1","V8 Fluids and Materials \u2014 Part 1",60],
+    ["U1","V8 \u2014 Part 2",60],
+    ["U1","V9 Solid Materials \u2014 Part 1",60],
+    ["U1","V9 \u2014 Part 2",60]
 ]],
 ["09-29","September 29",2026,8,29,[
-  ["P2","V43 Areas between curves and lines","core"],
-  ["P2","V44 Areas between two curves","core"],
-  ["P2","V45 Trapezium Rule","core"],
-  ["M1","V23–V24","core"],
-  ["M1","V25–V26","core"],
-  ["U1","V8 Fluids and Materials — Part 2","core"],
-  ["U1","V9 Solid Materials — Part 1","core"],
-  ["U2","V11 Photoelectric Effect","core"],
-  ["U2","V12 Energy Levels","core"],
-  ["U2","V13 Charge Carrier Density","core"],
-  ["P1","October 2023 WMA11/01 Full Paper","bonus"],
-  ["P1","October 2023 WMA11/01 Mark + Correct","bonus"]
+    ["P2","V35 Equations and Identities + V36 Increasing/Decreasing Functions",60],
+    ["P2","V37 Stationary Points + V38 Sketching gradient functions",60],
+    ["P2","V39 Modelling with differentiation + V40 Definite integrals",60],
+    ["P2","V41 Areas under curves + V42 Areas under x-axis + V43 Areas between curves and lines",60],
+    ["P2","V44 Areas between two curves + V45 Trapezium Rule",60],
+    ["M1","V14\u2013V18",60],
+    ["M1","V19\u2013V22",60]
 ]],
 ["09-30","September 30",2026,8,30,[
-  ["M1","V27–V28","core"],
-  ["M1","V29","core"],
-  ["M1","V30","core"],
-  ["M1","V31","core"],
-  ["U1","V9 Solid Materials — Part 2","core"],
-  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 1","core"],
-  ["U2","V14 Conductor, Semiconductor, Voltage, Resistance and Resistivity — Part 2","core"],
-  ["U2","V15 Transport Equation, Potential Difference and Resistance","core"],
-  ["U2","V16 Series and Parallel Circuits — Part 1","core"],
-  ["U3","V1 Experimental Skills and Techniques — Part 1","core"],
-  ["P1","January 2023 WMA11/01 Full Paper","bonus"],
-  ["P1","January 2023 WMA11/01 Mark + Correct","bonus"]
+    ["M1","V23\u2013V28",60],
+    ["M1","V29\u2013V33",60],
+    ["M1","V34\u2013V39",60],
+    ["U2","V9 Polarisation",60],
+    ["U2","V10 Pulse Echo",60],
+    ["U2","V11 Photoelectric Effect \u2014 Part 1",60],
+    ["U2","V11 \u2014 Part 2",60]
 ]],
 ["10-01","October 1",2026,9,1,[
-  ["M1","V32–V33","core"],
-  ["M1","V34–V35","core"],
-  ["M1","V36–V37","core"],
-  ["U2","V16 Series and Parallel Circuits — Part 2","core"],
-  ["U2","V17 Current Electricity Circuits — Part 1","core"],
-  ["U2","V17 Current Electricity Circuits — Part 2","core"],
-  ["U2","V18 Ideal and Real Voltmeters, Internal Resistance","core"],
-  ["U3","V1 Experimental Skills and Techniques — Part 2","core"],
-  ["U3","V2 May/June 2023 practical discussion — Part 1","core"],
-  ["P2","January 2024 WMA12/01 Full Paper","bonus"],
-  ["P2","January 2024 WMA12/01 Mark + Correct","bonus"],
-  ["M1","V38–V39","bonus"]
+    ["U2","V12 Energy Levels",60],
+    ["U2","V13 Charge Carrier Density",60],
+    ["U2","V14 Conductor/Semiconductor/Voltage/Resistance/Resistivity \u2014 Part 1",60],
+    ["U2","V14 \u2014 Part 2",60],
+    ["U2","V15 Transport Equation/Potential Difference/Resistance",60],
+    ["U2","V16 Series/Parallel Circuits \u2014 Part 1",60],
+    ["U2","V16 \u2014 Part 2",60]
 ]],
 ["10-02","October 2",2026,9,2,[
-  ["M1","V38–V39","core"],
-  ["U2","V19 Ammeter, Cell and Internal Resistance","core"],
-  ["U2","V20 Electricity Circuits Exam-Style Questions","core"],
-  ["U2","V21 Electricity Circuits Exam-Style Questions","core"],
-  ["U3","V2 May/June 2023 practical discussion — Part 2","core"],
-  ["U3","Experimental terminology and techniques","core"],
-  ["U1","January 2024 WPH11/01 Full Paper","core"],
-  ["U1","January 2024 WPH11/01 Mark + Correct","core"],
-  ["P2","June 2024 WMA12/01 Full Paper","bonus"],
-  ["P2","June 2024 WMA12/01 Mark + Correct","bonus"],
-  ["M1","January 2024 WME01/01 Full Paper","bonus"],
-  ["M1","January 2024 WME01/01 Mark + Correct","bonus"]
+    ["U2","V17 Current Electricity Circuits \u2014 Part 1",60],
+    ["U2","V17 \u2014 Part 2",60],
+    ["U2","V18 Ideal/Real Voltmeters + Internal Resistance",60],
+    ["U2","V19 Ammeter/Cell/Internal Resistance",60],
+    ["U2","V20 Electricity Circuits Exam-Style Questions \u2014 Part 1",60],
+    ["U2","V20 \u2014 Part 2",60],
+    ["U2","V21 Electricity Circuits Exam-Style Questions \u2014 Part 1",60]
 ]],
 ["10-03","October 3",2026,9,3,[
-  ["U1","October 2023 WPH11/01 Full Paper","core"],
-  ["U1","October 2023 WPH11/01 Mark + Correct","core"],
-  ["P1","October 2020 WMA11/01 Full Paper","core"],
-  ["P1","October 2020 WMA11/01 Mark + Correct","core"],
-  ["P2","October 2023 WMA12/01 Full Paper","core"],
-  ["P2","October 2023 WMA12/01 Mark + Correct","core"],
-  ["M1","October 2023 WME01/01 Full Paper","core"],
-  ["M1","October 2023 WME01/01 Mark + Correct","core"],
-  ["U2","October 2023 WPH12/01 Full Paper","bonus"],
-  ["U2","October 2023 WPH12/01 Mark + Correct","bonus"],
-  ["U1","Redo every mistake from today's U1 paper","bonus"],
-  ["P1","Redo every mistake from today's P1 paper","bonus"]
+    ["U2","V21 Electricity Circuits Exam-Style Questions \u2014 Part 2",60],
+    ["U2","Formula/specification consolidation",60],
+    ["U3","V1 Experimental Skills and Techniques \u2014 Part 1",60],
+    ["U3","V1 \u2014 Part 2",60],
+    ["U3","V1 \u2014 Part 3",60],
+    ["U3","V2 May/June 2023 practical discussion \u2014 Part 1",60],
+    ["U3","V2 \u2014 Part 2",60]
 ]],
 ["10-04","October 4",2026,9,4,[
-  ["U1","January 2025 WPH11/01 Full Paper","core"],
-  ["U1","January 2025 WPH11/01 Mark + Correct","core"],
-  ["P1","June 2021 WMA11/01 Full Paper","core"],
-  ["P1","June 2021 WMA11/01 Mark + Correct","core"],
-  ["P2","January 2025 WMA12/01 Full Paper","core"],
-  ["P2","January 2025 WMA12/01 Mark + Correct","core"],
-  ["M1","January 2025 WME01/01 Full Paper","core"],
-  ["M1","January 2025 WME01/01 Mark + Correct","core"],
-  ["U2","January 2025 WPH12/01 Full Paper","bonus"],
-  ["U2","January 2025 WPH12/01 Mark + Correct","bonus"],
-  ["U1","Redo every mistake from today's U1 paper","bonus"],
-  ["P1","Redo every mistake from today's P1 paper","bonus"]
+    ["U1","January 2024 WPH11/01 Full Paper",90],
+    ["U1","January 2024 WPH11/01 Mark + Correct",60],
+    ["P1","June 2023 WMA11/01 Full Paper",90],
+    ["P1","June 2023 WMA11/01 Mark + Correct",60],
+    ["U1","June 2024 WPH11/01 Full Paper",90],
+    ["U1","June 2024 WPH11/01 Mark + Correct",60]
 ]],
 ["10-05","October 5",2026,9,5,[
-  ["U1","October 2024 WPH11/01 Full Paper","core"],
-  ["U1","October 2024 WPH11/01 Mark + Correct","core"],
-  ["P1","October 2019 WMA11/01 Full Paper","core"],
-  ["P1","October 2019 WMA11/01 Mark + Correct","core"],
-  ["P2","October 2024 WMA12/01 Full Paper","core"],
-  ["P2","October 2024 WMA12/01 Mark + Correct","core"],
-  ["M1","October 2024 WME01/01 Full Paper","core"],
-  ["M1","October 2024 WME01/01 Mark + Correct","core"],
-  ["U2","October 2024 WPH12/01 Full Paper","bonus"],
-  ["U2","October 2024 WPH12/01 Mark + Correct","bonus"],
-  ["U1","Redo every mistake from today's U1 paper","bonus"],
-  ["P1","Redo every mistake from today's P1 paper","bonus"]
+    ["U1","October 2023 WPH11/01 Full Paper",90],
+    ["U1","October 2023 WPH11/01 Mark + Correct",60],
+    ["P1","June 2022 WMA11/01 Full Paper",90],
+    ["P1","June 2022 WMA11/01 Mark + Correct",60],
+    ["U1","January 2025 WPH11/01 Full Paper",90],
+    ["U1","January 2025 WPH11/01 Mark + Correct",60]
 ]],
 ["10-06","October 6",2026,9,6,[
-  ["U1","June 2025 WPH11/01 Full Paper","core"],
-  ["U1","June 2025 WPH11/01 Mark + Correct","core"],
-  ["P1","June 2025 WMA11/01 Full Paper","core"],
-  ["P1","June 2025 WMA11/01 Mark + Correct","core"],
-  ["P2","June 2025 WMA12/01 Full Paper","core"],
-  ["P2","June 2025 WMA12/01 Mark + Correct","core"],
-  ["M1","June 2025 WME01/01 Full Paper","core"],
-  ["M1","June 2025 WME01/01 Mark + Correct","core"],
-  ["U2","June 2025 WPH12/01 Full Paper","bonus"],
-  ["U2","June 2025 WPH12/01 Mark + Correct","bonus"],
-  ["U1","Final mechanics + materials mistake corrections","bonus"],
-  ["P1","Final recurring-mistake corrections","bonus"]
+    ["U1","October 2024 WPH11/01 Full Paper",90],
+    ["U1","October 2024 WPH11/01 Mark + Correct",60],
+    ["P1","January 2025 WMA11/01 Full Paper",90],
+    ["P1","January 2025 WMA11/01 Mark + Correct",60],
+    ["U1","June 2025 WPH11/01 Full Paper",90],
+    ["U1","June 2025 WPH11/01 Mark + Correct",60]
 ]],
 ["10-07","October 7",2026,9,7,[
-  ["U1","October 2025 WPH11/01 Full Paper","core"],
-  ["U1","October 2025 WPH11/01 Mark + Correct","core"],
-  ["P1","January 2025 WMA11/01 Full Paper","core"],
-  ["P1","January 2025 WMA11/01 Mark + Correct","core"],
-  ["M1","January 2026 WME01/01 Full Paper","core"],
-  ["M1","January 2026 WME01/01 Mark + Correct","core"],
-  ["P2","January 2026 WMA12/01 Full Paper","core"],
-  ["P2","January 2026 WMA12/01 Mark + Correct","core"],
-  ["U1","Final mechanics formulae + methods","bonus"],
-  ["U1","Final materials formulae + definitions","bonus"],
-  ["P1","Final formulae + methods","bonus"],
-  ["P1","Final timed practice + correction","bonus"]
+    ["U1","October 2025 WPH11/01 Full Paper",90],
+    ["U1","October 2025 WPH11/01 Mark + Correct",60],
+    ["P1","June 2025 WMA11/01 Full Paper",90],
+    ["P1","June 2025 WMA11/01 Mark + Correct",60],
+    ["U1","Redo every U1 mistake from all completed papers + final formula/method sheet",60],
+    ["P1","Redo every P1 mistake from all completed papers + final formula/method sheet",60]
 ]],
 ["10-08","October 8",2026,9,8,[
-  ["U1","PHYSICS U1 EXAM — WPH11","exam"],
-  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
-  ["P1","Formulae + methods from your mistake log","core"],
-  ["P1","Timed P1 practice","core"],
-  ["P1","Mark + correct the timed practice","core"],
-  ["M1","Formulae + methods","core"],
-  ["M1","Redo recurring mistakes","core"],
-  ["P2","Formulae + methods","core"],
-  ["P2","Redo recurring mistakes","bonus"],
-  ["U2","Formulae + definitions","bonus"],
-  ["U2","Redo recurring mistakes","bonus"]
+    ["EXAM","PHYSICS U1 EXAM \u2014 WPH11",0],
+    ["P1","Final formulae + recurring P1 mistakes",60],
+    ["M1","January 2024 WME01/01 Full Paper",90],
+    ["M1","January 2024 WME01/01 Mark + Correct",60],
+    ["P2","January 2024 WMA12/01 Full Paper",90],
+    ["P2","January 2024 WMA12/01 Mark + Correct",60],
+    ["U2","January 2024 WPH12/01 Full Paper",90]
 ]],
 ["10-09","October 9",2026,9,9,[
-  ["P1","MATHS P1 EXAM — WMA11","exam"],
-  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
-  ["M1","January 2026 WME01/01 Full Paper","core"],
-  ["M1","January 2026 WME01/01 Mark + Correct","core"],
-  ["M1","Redo every mistake","core"],
-  ["P2","January 2026 WMA12/01 Full Paper","core"],
-  ["P2","January 2026 WMA12/01 Mark + Correct","core"],
-  ["P2","Redo every mistake","core"],
-  ["U2","January 2026 WPH12/01 Full Paper","bonus"],
-  ["U2","January 2026 WPH12/01 Mark + Correct","bonus"],
-  ["U3","Experimental skills","bonus"]
+    ["EXAM","MATHS P1 EXAM \u2014 WMA11",0],
+    ["M1","January 2024 WME01/01 Mark + Correct",60],
+    ["M1","January 2026 WME01/01 Full Paper",90],
+    ["M1","January 2026 WME01/01 Mark + Correct",60],
+    ["P2","January 2026 WMA12/01 Full Paper",90],
+    ["P2","January 2026 WMA12/01 Mark + Correct",60],
+    ["U2","January 2024 WPH12/01 Mark + Correct",60]
 ]],
 ["10-10","October 10",2026,9,10,[
-  ["M1","June 2025 WME01/01 Full Paper","core"],
-  ["M1","June 2025 WME01/01 Mark + Correct","core"],
-  ["P2","June 2025 WMA12/01 Full Paper","core"],
-  ["P2","June 2025 WMA12/01 Mark + Correct","core"],
-  ["U2","June 2025 WPH12/01 Full Paper","core"],
-  ["U2","June 2025 WPH12/01 Mark + Correct","core"],
-  ["M1","Redo recurring mistakes + formulae","core"],
-  ["P2","Redo recurring mistakes + formulae","core"],
-  ["U2","Redo recurring mistakes + definitions","core"],
-  ["U3","Uncertainties","bonus"],
-  ["U3","Graphs","bonus"],
-  ["U3","Planning","bonus"]
+    ["M1","June 2025 WME01/01 Full Paper",90],
+    ["M1","June 2025 WME01/01 Mark + Correct",60],
+    ["P2","June 2025 WMA12/01 Full Paper",90],
+    ["P2","June 2025 WMA12/01 Mark + Correct",60],
+    ["U2","June 2025 WPH12/01 Full Paper",90],
+    ["U2","June 2025 WPH12/01 Mark + Correct",60],
+    ["M1","V40 Oct 2021 M1 exam walkthrough",60]
 ]],
 ["10-11","October 11",2026,9,11,[
-  ["M1","October 2025 WME01/01 Full Paper","core"],
-  ["M1","October 2025 WME01/01 Mark + Correct","core"],
-  ["P2","October 2025 WMA12/01 Full Paper","core"],
-  ["P2","October 2025 WMA12/01 Mark + Correct","core"],
-  ["U2","October 2025 WPH12/01 Full Paper","core"],
-  ["U2","October 2025 WPH12/01 Mark + Correct","core"],
-  ["M1","Redo every mistake","core"],
-  ["P2","Redo every mistake","core"],
-  ["U2","Redo every mistake","core"],
-  ["M1","Final formulae + methods","bonus"],
-  ["P2","Final formulae + methods","bonus"],
-  ["U2","Final formulae + definitions","bonus"]
+    ["M1","October 2025 WME01/01 Full Paper",90],
+    ["M1","October 2025 WME01/01 Mark + Correct",60],
+    ["P2","October 2025 WMA12/01 Full Paper",90],
+    ["P2","October 2025 WMA12/01 Mark + Correct",60],
+    ["U2","October 2025 WPH12/01 Full Paper",90],
+    ["U2","October 2025 WPH12/01 Mark + Correct",60],
+    ["M1","V41 May 2023 M1 exam walkthrough",60]
 ]],
 ["10-12","October 12",2026,9,12,[
-  ["M1","June 2026 WME01/01 Full Paper","core"],
-  ["M1","June 2026 WME01/01 Mark + Correct","core"],
-  ["M1","Redo every mistake","core"],
-  ["P2","June 2026 WMA12/01 Full Paper","core"],
-  ["P2","June 2026 WMA12/01 Mark + Correct","core"],
-  ["P2","Redo every mistake","core"],
-  ["U2","June 2026 WPH12/01 Full Paper","core"],
-  ["U2","June 2026 WPH12/01 Mark + Correct","core"],
-  ["U2","Redo every mistake","core"],
-  ["M1","Final methods","bonus"],
-  ["P2","Final methods","bonus"],
-  ["U2","Final definitions","bonus"]
+    ["M1","June 2026 WME01/01 Full Paper",90],
+    ["M1","June 2026 WME01/01 Mark + Correct",60],
+    ["M1","Redo every mistake + final mechanics/method consolidation",60],
+    ["P2","June 2026 WMA12/01 Full Paper",90],
+    ["P2","June 2026 WMA12/01 Mark + Correct",60],
+    ["P2","V46 Oct 2021 P2 exam walkthrough",60],
+    ["P2","V47 Jan 2023 P2 exam walkthrough",60]
 ]],
 ["10-13","October 13",2026,9,13,[
-  ["M1","MATHS M1 EXAM — WME01","exam"],
-  ["GEN","Eat, hydrate, and properly reset after the exam","core"],
-  ["P2","Formulae","core"],
-  ["P2","Redo every previous mistake","core"],
-  ["P2","Timed practice + mark + correct","core"],
-  ["U2","Formulae + definitions","core"],
-  ["U2","Redo every previous mistake","core"],
-  ["U2","Timed practice + mark + correct","core"],
-  ["U3","Experimental skills","bonus"],
-  ["U3","Practical questions","bonus"]
+    ["EXAM","MATHS M1 EXAM \u2014 WME01",0],
+    ["P2","V48 May 2023 P2 exam walkthrough",60],
+    ["P2","V49 Hardest Questions P2 2022 walkthrough",60],
+    ["U2","June 2026 WPH12/01 Full Paper",90],
+    ["U2","June 2026 WPH12/01 Mark + Correct",60],
+    ["U2","Redo every U2 mistake from all completed papers",60],
+    ["P2","Series + trigonometry + calculus final formula/method consolidation",60]
 ]],
 ["10-14","October 14",2026,9,14,[
-  ["P2","October 2025 WMA12/01 Full Paper","core"],
-  ["P2","October 2025 WMA12/01 Mark + Correct","core"],
-  ["P2","Redo every mistake","core"],
-  ["P2","Series final consolidation","core"],
-  ["P2","Trigonometry final consolidation","core"],
-  ["P2","Calculus final consolidation","core"],
-  ["U2","October 2025 WPH12/01 Full Paper","core"],
-  ["U2","October 2025 WPH12/01 Mark + Correct","core"],
-  ["U2","Redo every mistake","core"],
-  ["U2","Waves final consolidation","bonus"],
-  ["U2","Electricity final consolidation","bonus"],
-  ["U2","Final formula + definition sheet","bonus"]
+    ["P2","October 2025 WMA12/01 Full Paper",90],
+    ["P2","October 2025 WMA12/01 Mark + Correct",60],
+    ["P2","Redo every P2 mistake from all completed papers",60],
+    ["P2","Final series/trigonometry/calculus consolidation",60],
+    ["U2","October 2025 WPH12/01 Full Paper",90],
+    ["U2","October 2025 WPH12/01 Mark + Correct",60],
+    ["U2","Redo every U2 mistake from all completed papers",60],
+    ["U2","Final waves/electricity formula + definition consolidation",60]
 ]],
 ["10-15","October 15",2026,9,15,[
-  ["P2","MATHS P2 EXAM — WMA12","exam"],
-  ["U2","PHYSICS U2 EXAM — WPH12","exam"],
-  ["GEN","Eat, hydrate, and properly reset after the exams","core"],
-  ["U3","Experimental skills","core"],
-  ["U3","Uncertainties","core"],
-  ["U3","Graphs","core"],
-  ["U3","Planning","core"],
-  ["U3","Data analysis","core"],
-  ["U3","Practical paper","core"],
-  ["U3","Mark + correct practical paper","core"],
-  ["U3","Redo mistakes","bonus"],
-  ["U3","Experimental techniques + equations","bonus"]
+    ["EXAM","MATHS P2 EXAM \u2014 WMA12",0],
+    ["EXAM","PHYSICS U2 EXAM \u2014 WPH12",0],
+    ["U3","Experimental skills: apparatus, uncertainties, significant figures and error types",60],
+    ["U3","Graphs: gradients, intercepts, best-fit lines and extracting data",60],
+    ["U3","Planning: variables, controls, method and risk considerations",60],
+    ["U3","Data analysis + calculations + practical-paper technique",60],
+    ["U3","Practical question drill: explain, calculate, evaluate",60]
 ]],
 ["10-16","October 16",2026,9,16,[
-  ["U3","January 2024 WPH13/01 Full Paper","core"],
-  ["U3","January 2024 WPH13/01 Mark + Correct","core"],
-  ["U3","Redo every mistake","core"],
-  ["U3","Experimental skills","core"],
-  ["U3","Uncertainties","core"],
-  ["U3","Graphs","core"],
-  ["U3","Planning","core"],
-  ["U3","Data analysis","core"],
-  ["U3","Terminology","core"],
-  ["U3","Calculations","core"],
-  ["U3","Practical paper questions","bonus"],
-  ["U3","Mistake corrections","bonus"]
+    ["U3","January 2024 WPH13/01 Full Paper",90],
+    ["U3","January 2024 WPH13/01 Mark + Correct",60],
+    ["U3","Redo every mistake from January 2024",60],
+    ["U3","Experimental skills + uncertainties",60],
+    ["U3","Graphs + data analysis",60],
+    ["U3","Planning + evaluation",60],
+    ["U3","Terminology + calculations",60]
 ]],
 ["10-17","October 17",2026,9,17,[
-  ["U3","June 2024 WPH13/01 Full Paper","core"],
-  ["U3","June 2024 WPH13/01 Mark + Correct","core"],
-  ["U3","Redo every mistake","core"],
-  ["U3","October 2024 WPH13/01 Full Paper","core"],
-  ["U3","October 2024 WPH13/01 Mark + Correct","core"],
-  ["U3","Redo every mistake","core"],
-  ["U3","Experimental skills","core"],
-  ["U3","Uncertainties","core"],
-  ["U3","Graphs","core"],
-  ["U3","Planning","core"],
-  ["U3","Data analysis","bonus"],
-  ["U3","Recurring mistake corrections","bonus"]
+    ["U3","June 2024 WPH13/01 Full Paper",90],
+    ["U3","June 2024 WPH13/01 Mark + Correct",60],
+    ["U3","Redo every mistake from June 2024",60],
+    ["U3","October 2024 WPH13/01 Full Paper",90],
+    ["U3","October 2024 WPH13/01 Mark + Correct",60],
+    ["U3","Redo every mistake from October 2024",60],
+    ["U3","Recurring practical mistakes + experimental skills",60]
 ]],
 ["10-18","October 18",2026,9,18,[
-  ["U3","January 2025 WPH13/01 Full Paper","core"],
-  ["U3","January 2025 WPH13/01 Mark + Correct","core"],
-  ["U3","Redo every mistake","core"],
-  ["U3","June 2025 WPH13/01 Full Paper","core"],
-  ["U3","June 2025 WPH13/01 Mark + Correct","core"],
-  ["U3","Redo every mistake","core"],
-  ["U3","Experimental skills final consolidation","core"],
-  ["U3","Uncertainties + graphs final consolidation","core"],
-  ["U3","Planning + data final consolidation","core"],
-  ["U3","Final mistake sheet","core"]
+    ["U3","January 2025 WPH13/01 Full Paper",90],
+    ["U3","January 2025 WPH13/01 Mark + Correct",60],
+    ["U3","Redo every mistake from January 2025",60],
+    ["U3","June 2025 WPH13/01 Full Paper",90],
+    ["U3","June 2025 WPH13/01 Mark + Correct",60],
+    ["U3","Redo every mistake from June 2025",60],
+    ["U3","Final mistake sheet + uncertainties/graphs/planning consolidation",60]
 ]],
 ["10-19","October 19",2026,9,19,[
-  ["U3","PHYSICS U3 EXAM — WPH13","exam"]
+    ["EXAM","PHYSICS U3 EXAM \u2014 WPH13",0]
 ]]
-];
+]
 
 /* ---------- SUBJECT COLORS ---------- */
 var SUBJECT_COLORS = {
@@ -788,16 +641,17 @@ function classify(subject, text){
 const DAYS = RAW_DAYS.map(function(d){
   var id=d[0], label=d[1], year=d[2], month=d[3], date=d[4], raw=d[5];
   var tasks = raw.map(function(t,i){
-    var subject=t[0], text=t[1], priority=t[2] || "core";
+    var subject=t[0], text=t[1], minutes=t[2] || 60;
     var type = classify(subject, text);
-    return {idx:i, subject:subject, text:text, type:type, priority:priority};
+    if(type === "normal") minutes = Math.min(minutes,45);
+    return {idx:i, subject:subject, text:text, type:type, minutes:minutes};
   });
   var hasExam = tasks.some(function(t){return t.type==="exam";});
   return {id:id, label:label, year:year, month:month, date:date, tasks:tasks, hasExam:hasExam};
 });
 
 /* ---------- STATE ---------- */
-var STORE_KEY = "examgrind_recovery_v2_done";
+var STORE_KEY = "studyplan_v1_done";
 var doneMap = {};
 try{
   var stored = localStorage.getItem(STORE_KEY);
@@ -839,11 +693,7 @@ function dayCompletion(day){
   var list = nonExamTasks(day);
   var total = list.length;
   var done = list.filter(function(t){ return isDone(day.id, t.idx); }).length;
-  var core = list.filter(function(t){ return t.priority !== "bonus"; });
-  var bonus = list.filter(function(t){ return t.priority === "bonus"; });
-  var coreDone = core.filter(function(t){ return isDone(day.id, t.idx); }).length;
-  var bonusDone = bonus.filter(function(t){ return isDone(day.id, t.idx); }).length;
-  return {done:done, total:total, coreDone:coreDone, coreTotal:core.length, bonusDone:bonusDone, bonusTotal:bonus.length};
+  return {done:done, total:total};
 }
 function overallCompletion(){
   var total=0, done=0;
@@ -881,15 +731,7 @@ var els = {
   taskList: document.getElementById("taskList"),
   statusFilters: document.getElementById("statusFilters"),
   subjectFilters: document.getElementById("subjectFilters"),
-  resetBtn: document.getElementById("resetBtn"),
-  driveTitle: document.getElementById("driveTitle"),
-  driveSub: document.getElementById("driveSub"),
-  coreDone: document.getElementById("coreDone"),
-  coreTotal: document.getElementById("coreTotal"),
-  bonusDone: document.getElementById("bonusDone"),
-  bonusTotal: document.getElementById("bonusTotal"),
-  daysLeft: document.getElementById("daysLeft"),
-  focusBtn: document.getElementById("focusBtn")
+  resetBtn: document.getElementById("resetBtn")
 };
 
 function render(){
@@ -900,63 +742,16 @@ function render(){
 
   els.dayLabel.textContent = day.label.toUpperCase();
   var c = dayCompletion(day);
-  els.daySub.textContent = c.total + " SESSION" + (c.total===1?"":"S") + (day.hasExam ? " · EXAM DAY" : "");
+  els.daySub.textContent = "START 1:30 PM · " + c.total + " SESSION" + (c.total===1?"":"S") + (day.hasExam ? " · EXAM DAY" : "");
   els.dayLabel.style.color = day.hasExam ? "var(--exam)" : "var(--ink)";
 
-  els.dayCount.innerHTML = c.coreDone + " / " + c.coreTotal + " <span>core · " + c.bonusDone + " / " + c.bonusTotal + " bonus</span>";
+  els.dayCount.innerHTML = c.done + " / " + c.total + " <span>completed</span>";
   els.dayFill.style.width = (c.total? (c.done/c.total*100):0) + "%";
 
   var overall = overallCompletion();
   els.overallFill.style.width = (overall.total ? (overall.done/overall.total*100) : 0) + "%";
 
   els.streakNum.textContent = computeStreak();
-
-  var corePercent = c.coreTotal ? Math.round(c.coreDone / c.coreTotal * 100) : 0;
-  els.coreDone.textContent = c.coreDone;
-  els.coreTotal.textContent = c.coreTotal;
-  els.bonusDone.textContent = c.bonusDone;
-  els.bonusTotal.textContent = c.bonusTotal;
-  var nowForCountdown = new Date(2026, 8, 25);
-  var examDates = [
-    {d:new Date(2026,8,25), label:"U1 · Oct 8"},
-    {d:new Date(2026,8,25), label:"P1 · Oct 9"},
-    {d:new Date(2026,8,25), label:"M1 · Oct 13"},
-    {d:new Date(2026,8,25), label:"P2 + U2 · Oct 15"},
-    {d:new Date(2026,8,25), label:"U3 · Oct 19"}
-  ];
-  var targetExam = null;
-  for(var ei=0;ei<DAYS.length;ei++){
-    if(DAYS[ei].hasExam){
-      var ex = DAYS[ei];
-      var exDate = new Date(ex.year, ex.month-1, ex.date);
-      if(exDate >= new Date(day.year,day.month-1,day.date)) { targetExam={date:exDate,label:ex.tasks.filter(function(t){return t.type==='exam';})[0].subject}; break; }
-    }
-  }
-  if(targetExam){
-    var diffDays = Math.ceil((targetExam.date - new Date(day.year,day.month-1,day.date))/86400000);
-    els.daysLeft.textContent = diffDays === 0 ? "EXAM TODAY" : diffDays + "d to " + targetExam.label;
-  }else{
-    els.daysLeft.textContent = "Exams complete";
-  }
-
-  var nextTask = day.tasks.filter(function(t){ return t.type !== "exam" && !isDone(day.id,t.idx); })[0];
-  if(c.coreDone === c.coreTotal && c.coreTotal > 0){
-    if(c.bonusTotal > 0 && c.bonusDone < c.bonusTotal){
-      els.driveTitle.textContent = "CORE CLEARED. Now take the bonus work.";
-      els.driveSub.textContent = "You have done the important work today. Finish the extras if you still have the energy.";
-    }else{
-      els.driveTitle.textContent = "DAY CLEARED. Do not break the chain.";
-      els.driveSub.textContent = "Everything planned for today is complete. Protect your sleep and come back tomorrow.";
-    }
-  }else if(nextTask){
-    els.driveTitle.textContent = "Next: " + nextTask.text;
-    els.driveSub.textContent = corePercent >= 70 ? "You're close. Finish the core and the day is yours." : "Don't think about the whole timetable. Just finish this checkbox.";
-  }else{
-    els.driveTitle.textContent = "Start the first task.";
-    els.driveSub.textContent = "One checkbox at a time. Get the core work done first.";
-  }
-  els.focusBtn.textContent = nextTask ? "GO TO NEXT TASK" : "DAY COMPLETE";
-  els.focusBtn.disabled = !nextTask;
 
   // exam banners
   els.examBannerHolder.innerHTML = "";
@@ -993,15 +788,14 @@ function render(){
   }else{
     list.forEach(function(t){
       els.taskList.appendChild(renderTask(day, t));
+      var s = daySchedule(day)[t.idx];
+      if(statusFilter === "all" && subjectFilter === "all" && s && s.breakAfter){
+        var br=document.createElement("div");
+        br.className="hour-break";
+        br.innerHTML='<span>1 HOUR BREAK</span><small>Eat · walk · shower · relax · come back locked in</small>';
+        els.taskList.appendChild(br);
+      }
     });
-    if(statusFilter === "all" && subjectFilter === "all" && c.coreTotal > 0){
-      var finish = document.createElement("div");
-      finish.className = "finish-line" + (c.coreDone === c.coreTotal ? " done" : "");
-      finish.textContent = c.coreDone === c.coreTotal
-        ? (c.bonusDone === c.bonusTotal ? "✓ COMPLETE. TODAY IS DONE." : "✓ CORE COMPLETE. BONUS WORK IS OPTIONAL.")
-        : (c.coreTotal - c.coreDone) + " core task" + (c.coreTotal - c.coreDone === 1 ? "" : "s") + " left. Keep going.";
-      els.taskList.appendChild(finish);
-    }
   }
 }
 
@@ -1022,10 +816,41 @@ function taskColor(t){
   return SUBJECT_COLORS[t.subject] || "#7a8fb0";
 }
 
+function howToDo(t){
+  if(t.type === "full") return "Do the entire paper under real exam conditions. No notes, no pauses, no checking answers. Use the exact time allowed. Show every working step. When finished, stop and mark it immediately with the official mark scheme. Record every lost mark, including guesses or answers you only got right by luck.";
+  if(t.type === "mark") return "Mark the exact paper question-by-question with the official mark scheme. Do not give yourself marks for answers that are incomplete. Write the reason for every lost mark, then correct the solution in full. Any question you guessed, rushed or did not fully understand counts as a correction.";
+  if(/Redo every|recurring mistake|mistake/i.test(t.text)) return "Redo every listed mistake from a blank page without looking at your old working first. Then compare with the mark scheme and your original attempt. If you still cannot explain the method, put it back on your mistake list.";
+  if(/consolidation|formula|method|definition|terminology|experimental skills|uncertainties|graphs|planning|data analysis|practical/i.test(t.text)) return "Do this actively, not by rereading. First recall the formulas, definitions, methods and common mark-scheme points from memory. Then test yourself with questions/examples. Write down anything you could not recall and immediately fix it.";
+  if(/^V\d/.test(t.text) || /V\d/.test(t.text)) return "Watch the exact video(s), but treat the video as a lesson, not entertainment. Pause before every worked example and solve it yourself. Take concise notes, write the required formulas/methods, and make sure you can reproduce the examples without the video before ticking this off.";
+  return "Complete this session actively. Attempt the work yourself first, show your full reasoning, check against the specification/mark scheme where relevant, and write down anything you could not do confidently.";
+}
+
+function fmtTime(mins){
+  mins = ((mins % 1440) + 1440) % 1440;
+  var h=Math.floor(mins/60), m=mins%60;
+  var ap=h>=12?'PM':'AM'; var hh=h%12; if(hh===0) hh=12;
+  return hh+":"+String(m).padStart(2,"0")+" "+ap;
+}
+function daySchedule(day){
+  var cur=13*60+30, out={};
+  var studyCount=0;
+  day.tasks.forEach(function(t){
+    if(t.type==="exam"){ out[t.idx]={time:"EXAM", breakAfter:false}; return; }
+    var start=cur, end=cur+t.minutes;
+    out[t.idx]={time:fmtTime(start)+" – "+fmtTime(end), breakAfter:false};
+    cur=end; studyCount++;
+    if(studyCount%3===2){
+      out[t.idx].breakAfter=true;
+      cur+=60;
+    }
+  });
+  return out;
+}
+
 function renderTask(day, t){
   var done = isDone(day.id, t.idx);
   var el = document.createElement("div");
-  el.className = "task type-" + t.type + " priority-" + t.priority + (done ? " done" : "");
+  el.className = "task type-" + t.type + (done ? " done" : "");
   var subjColor = taskColor(t);
   el.style.borderLeftColor = subjColor;
   if(done){
@@ -1046,6 +871,7 @@ function renderTask(day, t){
 
   var body = document.createElement("div");
   body.className = "task-body";
+  var sched = daySchedule(day)[t.idx];
 
   var top = document.createElement("div");
   top.className = "task-top";
@@ -1055,8 +881,12 @@ function renderTask(day, t){
   }
   top.innerHTML = subjTag +
     '<span class="sess-num">Session ' + (t.idx+1) + '</span>' +
-    '<span class="priority-tag ' + t.priority + '">' + (t.priority === "bonus" ? "BONUS" : "CORE") + '</span>' +
     '<span class="type-tag ' + t.type + '">' + typeLabel(t.type) + '</span>';
+
+  var time = document.createElement("div");
+  time.className = "task-time";
+  time.textContent = sched ? sched.time : "";
+  body.appendChild(time);
 
   var txt = document.createElement("div");
   txt.className = "task-text";
@@ -1064,6 +894,10 @@ function renderTask(day, t){
 
   body.appendChild(top);
   body.appendChild(txt);
+  var free = document.createElement("div");
+  free.className = "free-note";
+  free.textContent = "Finish early? The remaining lesson time is FREE.";
+  body.appendChild(free);
 
   var detail = getDetail(t.text);
   if(detail){
@@ -1073,10 +907,19 @@ function renderTask(day, t){
     body.appendChild(det);
   }
 
+  var info = document.createElement("div");
+  info.className = "task-info";
+  info.innerHTML = '<button class="task-info-btn" aria-label="How to do this task">i</button>' +
+    '<div class="task-info-pop"><strong>How to do it properly</strong>' + escapeHtml(howToDo(t)) + '</div>';
+  info.addEventListener("click", function(e){ e.stopPropagation(); });
+  info.addEventListener("mousedown", function(e){ e.stopPropagation(); });
+
   el.appendChild(box);
   el.appendChild(body);
+  el.appendChild(info);
 
-  el.addEventListener("click", function(){
+  el.addEventListener("click", function(e){
+    if(e.target.closest && e.target.closest(".task-info")) return;
     toggleDone(day.id, t.idx);
     render();
   });
@@ -1153,29 +996,6 @@ els.subjectFilters.addEventListener("click", function(e){
   render();
 });
 paintSubjectChips();
-
-els.focusBtn.addEventListener("click", function(){
-  var day = DAYS[currentDayIndex];
-  var next = day.tasks.filter(function(t){ return t.type !== "exam" && !isDone(day.id,t.idx); })[0];
-  if(!next) return;
-  subjectFilter = "all";
-  statusFilter = "all";
-  Array.prototype.forEach.call(els.statusFilters.children, function(c){ c.classList.toggle("active", c.getAttribute("data-f")==="all"); });
-  paintSubjectChips();
-  render();
-  setTimeout(function(){
-    var cards = els.taskList.querySelectorAll(".task");
-    for(var i=0;i<cards.length;i++){
-      var card = cards[i];
-      if(card.querySelector(".task-text") && card.querySelector(".task-text").textContent === next.text){
-        card.classList.add("next-focus");
-        card.scrollIntoView({behavior:"smooth",block:"center"});
-        setTimeout(function(){ card.classList.remove("next-focus"); },1400);
-        break;
-      }
-    }
-  },40);
-});
 
 els.resetBtn.addEventListener("click", function(){
   if(confirm("Are you sure you want to reset all progress?")){
